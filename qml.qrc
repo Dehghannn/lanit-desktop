@@ -1,2 +1,10 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>LoginPage.qml</file>
+        <file>BigButton.qml</file>
+        <file>../icons/LanitIcon.png</file>
+        <file>MainPage.qml</file>
+        <file>UserDelegate.qml</file>
+    </qresource>
+</RCC>
