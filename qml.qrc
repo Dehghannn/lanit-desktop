@@ -6,5 +6,10 @@
         <file>../icons/LanitIcon.png</file>
         <file>MainPage.qml</file>
         <file>UserDelegate.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>../icons/offlineIcon.png</file>
+        <file>../icons/onlineIcon.png</file>
+        <file>../icons/sendIcon.png</file>
+        <file>../icons/attatchmentIcon.png</file>
     </qresource>
 </RCC>

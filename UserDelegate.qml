@@ -1,79 +1,57 @@
-import QtQuick 2.0
+import QtQuick 2.9
+import QtQuick.Controls 2.9
+import QtQuick.Controls.Material 2.3
 
 Item {
     id: userDelegate
     width: 150
     height: 50
     property bool isOnline: true
-    property alias text: userDelegateText.text
-    Rectangle{
-        id: userDelegateRect
-        radius: 5
-        border.width: 3
-        border.color: "#0e4775"
+    property string text: ""
+    property alias backgroundColor: bgRect.color
+    property alias highlighted: delegate.highlighted
+    signal pressed()
 
-        gradient: Gradient {
-            GradientStop {
-                position: 0
-                color: {
-                    if(userDelegateMouseArea.pressed)
-                        return "#307A94"; //"#14e3aa";
-                    else if(userDelegateMouseArea.containsMouse){
-                        return "#26d4dd"
-                    }
-                    else{
-                        return "#37e5ee";
-                    }
-                }
-            }
-
-            GradientStop {
-                position: 1
-                color: {
-                    if(userDelegateMouseArea.pressed)
-                        return "#5191b0";
-                    else if(userDelegateMouseArea.containsMouse){
-                        return "#62a2d0"
-                    }
-                    else{
-                        return "#73b3d0";
-                    }
-                }
-
-            }
-        }
-
-
+    ItemDelegate{
         anchors.fill: parent
-        MouseArea{
-            id: userDelegateMouseArea
+        id: delegate
+        text: userDelegate.text
+        Material.background: Material.color(Material.LightBlue, Material.Shade100)
+        Material.elevation: 6
+        onPressed:{ userDelegate.pressed()}
+
+        contentItem: Rectangle{
+            id : bgRect
+            //color: "#00000000"
+            color: "#E0F2F1"
+            z: -1
+            clip: true
             anchors.fill: parent
-            hoverEnabled: true
-        }
-        Text {
-            id: userDelegateText
-            height: parent.height
-            width: parent.width - 40
-            text: qsTr("Ali Dehghanzade")
-            font.pointSize: 9
-            verticalAlignment: Text.AlignVCenter
-            color: "#173c3e"
-            horizontalAlignment: Text.AlignLeft
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            elide: Text.ElideRight
+            Text {
+                height: parent.height
+                width: parent.width - 45
+                elide: Text.ElideRight
+                id: text
+                text: userDelegate.text
+                font.pixelSize: 15
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                leftPadding: 10
+            }
+            Rectangle{
+                width: 15
+                height: 15
+                radius: 100
+                border.width: 1                
+                border.color: "black"
+                x: parent.x + parent.width - 30
+                anchors.verticalCenter:  parent.verticalCenter
+                color: isOnline ? "#72E24C" : "gray"
+
+            }
 
         }
-        Rectangle{
-            id: statusCircle
-            height: 16
-            width: 16
-            radius: 100
-            color: isOnline ? "green" : "gray"
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.right
-            anchors.horizontalCenterOffset: -20
-        }
+
 
     }
 }
