@@ -5,6 +5,7 @@
 #include <QHostAddress>
 #include <QObject>
 
+
 class User : public QObject
 {
     Q_OBJECT
@@ -13,6 +14,7 @@ class User : public QObject
     Q_PROPERTY(bool isOnline READ isOnline WRITE setIsOnline NOTIFY isOnlineChanged)
 public:
     User(QObject *parent=0);
+    User(const User &user);
     virtual ~User() {}
     QString nickName() const;
     void setNickName(const QString &nickName);
@@ -24,6 +26,9 @@ public:
     void setUserIP(const QHostAddress &userIP);
     void setUserIP(const QString &userIP);
     bool operator == (const User &obj);
+    bool operator == (const User &obj) const;
+    void operator = (const User &obj);
+
 public slots:
     void setOffline();
     void keepOnline();
@@ -37,4 +42,9 @@ private:
     QHostAddress m_userIP;
     QTimer *timer;
 };
+
+inline uint qHash(const User &key, uint seed)
+{
+    return qHash(key.userIP(), seed);
+}
 #endif // USER_H

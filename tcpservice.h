@@ -3,6 +3,8 @@
 #include <QTcpSocket>
 #include <QObject>
 #include "tcpserver.h"
+#include "message.h"
+#include "user.h"
 
 class TCPservice : public QObject
 {
@@ -11,8 +13,13 @@ public:
     TCPservice();
 public slots:
     void startService();
+    void newMessage(Message message, User &user);
+    void newOutgoingTextMessage(Message message);
+    void startNewConnection(QString address);
+    void connected();
 private:
     TcpServer *server;
+    QList<QTcpSocket*> socketList;
 
 
 

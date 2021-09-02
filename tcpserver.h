@@ -11,6 +11,9 @@ class TcpServer : public QObject
 public:
     explicit TcpServer(QObject *parent = nullptr);
 
+    int getPort() const;
+    void setPort(int value);
+
 signals:
 private:
     QTcpServer *server;

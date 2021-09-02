@@ -12,6 +12,13 @@ User::User(QObject *parent)
 
 }
 
+User::User(const User &user)
+{
+    this->setUserIP(user.userIP());
+    this->setIsOnline(user.isOnline());
+    this->setNickName(user.nickName());
+}
+
 QString User::nickName() const
 {
     return m_nickName;
@@ -54,6 +61,21 @@ bool User::operator ==(const User &obj)
     if(this->userIP() == obj.userIP())
         return true;
     return false;
+}
+
+bool User::operator ==(const User &obj) const
+{
+    if(this->userIP() == obj.userIP())
+        return true;
+    return false;
+}
+
+void User::operator =(const User &obj)
+{
+    this->setUserIP(obj.userIP());
+    this->setIsOnline(obj.isOnline());
+    this->setNickName(obj.nickName());
+
 }
 
 void User::setOffline()

@@ -5,7 +5,6 @@
 
 #include <QList>
 #include "message.h"
-#include "user.h"
 class ChatListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -19,12 +18,14 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     void addMessage(Message &message);
     void reset();
-    User user() const;
-    void setUser(const User &user);
+
+
+    QString getUserIP() const;
+    void setUserIP(const QString &value);
 
 private:
     QList<Message> messageList;
-    User m_user; /// user related to this chat
+    QString userIP; /// IP of the other person in the chat
 
 };
 

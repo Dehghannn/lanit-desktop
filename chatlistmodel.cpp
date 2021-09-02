@@ -28,12 +28,13 @@ void ChatListModel::reset()
 
 }
 
-User ChatListModel::user() const
+QString ChatListModel::getUserIP() const
 {
-    return m_user;
+    return userIP;
 }
 
-void ChatListModel::setUser(const User &user)
+void ChatListModel::setUserIP(const QString &value)
 {
-    m_user = user;
+    userIP = value;
 }
+

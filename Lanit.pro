@@ -17,7 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     app.cpp \
-    chat.cpp \
     chathandler.cpp \
     chatlistmodel.cpp \
     main.cpp \
@@ -31,7 +30,6 @@ SOURCES += \
 
 HEADERS += \
     app.h \
-    chat.h \
     chathandler.h \
     chatlistmodel.h \
     mainwindow.h \

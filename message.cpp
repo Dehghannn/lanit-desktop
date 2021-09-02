@@ -34,3 +34,13 @@ void Message::setIsFile(bool isFile)
 {
     m_isFile = isFile;
 }
+
+QString Message::getUserIP() const
+{
+    return userIP;
+}
+
+void Message::setUserIP(const QString &value)
+{
+    userIP = value;
+}

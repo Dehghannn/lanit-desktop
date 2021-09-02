@@ -17,10 +17,14 @@ public:
     bool isFile() const;
     void setIsFile(bool isFile);
 
+    QString getUserIP() const;
+    void setUserIP(const QString &value);
+
 private:
     QString m_text = "";
     bool m_isOwn = false;
     bool m_isFile = false;
+    QString userIP;
 
 };
 

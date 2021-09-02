@@ -9,6 +9,16 @@ TcpServer::TcpServer(QObject *parent) : QObject(parent)
 
 }
 
+int TcpServer::getPort() const
+{
+    return port;
+}
+
+void TcpServer::setPort(int value)
+{
+    port = value;
+}
+
 void TcpServer::incommingConnection()
 {
     QTcpSocket *socket = server->nextPendingConnection();
