@@ -47,9 +47,20 @@ Page {
                 id: userListView
                 width: parent.width
                 height: parent.height - headerRect.height
+                property bool initState: true
                 y : headerRect.height
                 spacing: 0
-                clip: true                
+                clip: true
+                currentIndex: -1
+                populate: Transition {
+                        NumberAnimation { properties: "x,y"; duration: 1000 }
+                    }
+                onModelChanged: {
+                    if(initState)
+                    {
+                        currentIndex = -1;
+                    }
+                }
                 model: appCpp.userList
                 delegate: UserDelegate{
                     width: userListView.width
@@ -59,6 +70,7 @@ Page {
                     highlighted: (userListView.currentIndex === index) ? true : false
                     onPressed: {
                         userListView.currentIndex = index;
+                        userListView.initState = false;
                     }
 
                 }
@@ -103,6 +115,7 @@ Page {
                         y: 0
                         clip: true
                         font.pointSize: 10
+                        rightPadding: 10
                         width: parent.width
                         height:  contentHeight + 50 // 72
 //                        onContentHeightChanged: {

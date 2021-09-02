@@ -9,7 +9,7 @@ Item {
     property bool isOnline: true
     property string text: ""
     property alias backgroundColor: bgRect.color
-    property alias highlighted: delegate.highlighted
+    property bool highlighted: false
     signal pressed()
 
     ItemDelegate{
@@ -23,8 +23,8 @@ Item {
         contentItem: Rectangle{
             id : bgRect
             //color: "#00000000"
-            color: "#E0F2F1"
-            z: -1
+            color: userDelegate.highlighted? "#004D40" : "#E0F2F1"
+            z:  userDelegate.highlighted? 2 : -1
             clip: true
             anchors.fill: parent
             Text {
@@ -33,6 +33,7 @@ Item {
                 elide: Text.ElideRight
                 id: text
                 text: userDelegate.text
+                color: userDelegate.highlighted? "white" : "black"
                 font.pixelSize: 15
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft

@@ -1,6 +1,11 @@
-#include "tcplistener.h"
+#include "tcpservice.h"
 
-TCPlistener::TCPlistener()
+TCPservice::TCPservice()
+{
+
+}
+
+void TCPservice::startService()
 {
 
 }

@@ -17,17 +17,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     app.cpp \
+    chat.cpp \
+    chathandler.cpp \
+    chatlistmodel.cpp \
     main.cpp \
     mainwindow.cpp \
-    tcplistener.cpp \
+    message.cpp \
+    tcpserver.cpp \
+    tcpservice.cpp \
     udpbroadcaster.cpp \
     udplistener.cpp \
     user.cpp
 
 HEADERS += \
     app.h \
+    chat.h \
+    chathandler.h \
+    chatlistmodel.h \
     mainwindow.h \
-    tcplistener.h \
+    message.h \
+    tcpserver.h \
+    tcpservice.h \
     udpbroadcaster.h \
     udplistener.h \
     user.h

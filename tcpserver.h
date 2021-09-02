@@ -2,6 +2,8 @@
 #define TCPSERVER_H
 
 #include <QObject>
+#include <QTcpServer>
+#include <QTcpSocket>
 
 class TcpServer : public QObject
 {
@@ -10,6 +12,12 @@ public:
     explicit TcpServer(QObject *parent = nullptr);
 
 signals:
+private:
+    QTcpServer *server;
+    int port = 8890;
+public slots:
+    void incommingConnection();
+    void dataRead();
 
 };
 

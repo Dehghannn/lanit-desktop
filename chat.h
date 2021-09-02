@@ -2,7 +2,9 @@
 #define CHAT_H
 
 #include <QObject>
-
+/**
+ * @brief The Chat class represents each chat with each user that holds a list of messages
+ */
 class Chat : public QObject
 {
     Q_OBJECT

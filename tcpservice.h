@@ -1,12 +1,20 @@
 #ifndef TCPLISTENER_H
 #define TCPLISTENER_H
 #include <QTcpSocket>
+#include <QObject>
+#include "tcpserver.h"
 
-class TCPlistener
+class TCPservice : public QObject
 {
+    Q_OBJECT
 public:
-    TCPlistener();
+    TCPservice();
+public slots:
+    void startService();
 private:
+    TcpServer *server;
+
+
 
 };
 
