@@ -12,6 +12,7 @@ class User : public QObject
 
     Q_PROPERTY(QString nickName READ nickName WRITE setNickName NOTIFY nickNameChanged)
     Q_PROPERTY(bool isOnline READ isOnline WRITE setIsOnline NOTIFY isOnlineChanged)
+    Q_PROPERTY(QString userIP READ userIP WRITE setUserIP NOTIFY userIPChanged)
 public:
     User(QObject *parent=0);
     User(const User &user);
@@ -22,7 +23,7 @@ public:
     bool isOnline() const;
     void setIsOnline(bool isOnline);
 
-    QHostAddress userIP() const;
+    QString userIP() const;
     void setUserIP(const QHostAddress &userIP);
     void setUserIP(const QString &userIP);
     bool operator == (const User &obj);
@@ -35,11 +36,12 @@ public slots:
 signals:
     void nickNameChanged();
     void isOnlineChanged();
+    void userIPChanged();
 
 private:
     QString m_nickName;
     bool m_isOnline;
-    QHostAddress m_userIP;
+    QString m_userIP;
     QTimer *timer;
 };
 

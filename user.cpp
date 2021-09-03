@@ -41,19 +41,19 @@ void User::setIsOnline(bool isOnline)
     emit isOnlineChanged();
 }
 
-QHostAddress User::userIP() const
+QString User::userIP() const
 {
     return m_userIP;
 }
 
 void User::setUserIP(const QHostAddress &userIP)
 {
-    m_userIP = userIP;
+    m_userIP = userIP.toString();
 }
 
 void User::setUserIP(const QString &userIP)
 {
-    m_userIP.setAddress(userIP);
+    m_userIP = userIP;
 }
 
 bool User::operator ==(const User &obj)
