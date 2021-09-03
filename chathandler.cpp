@@ -25,7 +25,7 @@ void ChatHandler::newOutgoingTextMessage(QString text)
     Message *message = new Message;
     message->setText(text);
     message->setUserIP(activeChat()->getUserIP());
-    networkService.startNewConnection(message->getUserIP());
+    networkService.newOutgoingTextMessage(*message);
     /// @todo complete this
 
 }

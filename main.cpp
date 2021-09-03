@@ -35,13 +35,14 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("appCpp", &application);
 
 
-    ChatHandler chathandle;
+ /*   ChatHandler chathandle;
     User user;
     QHostAddress address(QHostAddress::LocalHost);
     user.setUserIP(address);
     chathandle.startNewChat(user);
     chathandle.newOutgoingTextMessage("hello");
-    engine.rootContext()->setContextProperty("ChatHandler", &chathandle); // QVariant::fromValue(application.usersList)
+    chathandle.newOutgoingTextMessage("bye");
+    engine.rootContext()->setContextProperty("ChatHandler", &chathandle);*/ // QVariant::fromValue(application.usersList)
 
     engine.load(url);
 

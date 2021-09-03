@@ -13,13 +13,16 @@ public:
     TCPservice();
 public slots:
     void startService();
-    void newMessage(Message message, User &user);
     void newOutgoingTextMessage(Message message);
+    void newIncomingMessage();
     void startNewConnection(QString address);
     void connected();
+signals:
+    void newIncomingTextMessage(Message message);
 private:
     TcpServer *server;
     QList<QTcpSocket*> socketList;
+    QTcpSocket* getSocketByIP(QString ip);
 
 
 
