@@ -11,5 +11,6 @@
         <file>../icons/onlineIcon.png</file>
         <file>../icons/sendIcon.png</file>
         <file>../icons/attatchmentIcon.png</file>
+        <file>MessageDelegate.qml</file>
     </qresource>
 </RCC>

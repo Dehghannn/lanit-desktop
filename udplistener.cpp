@@ -15,7 +15,7 @@ void UDPlistener::UDPread()
     while (usocketListener.hasPendingDatagrams()) {
         QNetworkDatagram datagram = usocketListener.receiveDatagram();
         emit newDataGram(datagram);
-        qDebug() <<"received: "  <<  datagram.data() << "from: " << datagram.senderAddress().toString();
+       // qDebug() <<"received: "  <<  datagram.data() << "from: " << datagram.senderAddress().toString();
     }
 }
 

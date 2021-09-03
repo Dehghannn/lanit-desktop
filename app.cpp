@@ -40,9 +40,9 @@ void App::newDatagramReceived(QNetworkDatagram datagram)
     User *user = new User;
     user->setNickName(datagram.data());
     user->setUserIP(datagram.senderAddress());
-    for(int i = 0; i < m_usersList.size(); i++){
-        qDebug() << m_usersList.at(i)->nickName();
-    }
+//    for(int i = 0; i < m_usersList.size(); i++){
+//        qDebug() << m_usersList.at(i)->nickName();
+//    }
     int index = getUserIndex(*user);
     if(index == -1){
         user->setIsOnline(true);

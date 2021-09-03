@@ -4,6 +4,7 @@
 #include <QObject>
 #include "tcpservice.h"
 #include "chatlistmodel.h"
+#include <QThread>
 
 /**
  * @brief The ChatHandler class manages the active chat and passing it to qml
@@ -22,20 +23,21 @@ public:
     void setNoActiveChat(bool noActiveChat);
 
 public slots:
-    void startNewChat(User &user);
-    void newOutgoingTextMessage(QString text);
-    void newIncomingTextMessage(QString text); /// @todo implement this
+    void startNewChat(QString userIP);
+    void newOutgoingTextMessageChatHandler(QString text);
+    void newIncomingTextMessage(Message message); /// @todo implement this
 signals:
     void activeChatChanged();
     void noActiveChatChanged();
+    void newOutgoingTextMessage(Message message);
 private:
-    TCPservice networkService;
+    TCPservice *networkService;
     QHash<User, ChatListModel*> userChatMap;
     ChatListModel *m_activeChatptr;
     int numberOfChats;
     bool m_noActiveChat;
     ChatListModel *emptyChat;
-
+    QThread *serverThread;
 };
 
 #endif // CHATHANDLER_H

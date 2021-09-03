@@ -70,7 +70,9 @@ Page {
                     highlighted: (userListView.currentIndex === index) ? true : false
                     onPressed: {
                         userListView.currentIndex = index;
-                        userListView.initState = false;
+                        userListView.initState = false;                        
+                        ChatHandler.startNewChat(model.modelData.userIP);
+                        /// @todo find a way to choose the user here
                     }
 
                 }
@@ -146,6 +148,11 @@ Page {
                     icon.width: height
                     icon.height: height
                     icon.color: Material.color(Material.Teal, Material.Shade800)
+                    onClicked: {
+                        /// new outgoing message here
+                        ChatHandler.newOutgoingTextMessageChatHandler(textArea.text);
+                        textArea.text = "";
+                    }
                 }
                 RoundButton {
                     id: attatchmentButton

@@ -1,6 +1,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 #include <QString>
+#include <QMetaType>
 /**
  * @brief The Message class represents a message in a chat
  */
@@ -27,5 +28,5 @@ private:
     QString userIP;
 
 };
-
+Q_DECLARE_METATYPE(Message);
 #endif // MESSAGE_H

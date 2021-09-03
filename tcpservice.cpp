@@ -2,12 +2,12 @@
 
 TCPservice::TCPservice()
 {
-    server = new TcpServer;
+
 }
 
 void TCPservice::startService()
 {
-
+    server = new TcpServer;
 }
 
 void TCPservice::newOutgoingTextMessage(Message message)

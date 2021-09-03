@@ -17,11 +17,8 @@ void UDPbroadcaster::broadCast()
 {
     QByteArray data;
     data =QByteArray::fromStdString( m_nickName.toStdString());
-    qDebug() << data;
     qint64 errCode;
     errCode = usocket.writeDatagram(data.data(), data.size(), QHostAddress::Broadcast, port);
-    qDebug() << errCode << "Bytes sent";
-    qDebug() << "broadcast called!";
 
 }
 

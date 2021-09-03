@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    qRegisterMetaType<Message>();
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -35,14 +36,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("appCpp", &application);
 
 
- /*   ChatHandler chathandle;
-    User user;
-    QHostAddress address(QHostAddress::LocalHost);
-    user.setUserIP(address);
-    chathandle.startNewChat(user);
-    chathandle.newOutgoingTextMessage("hello");
-    chathandle.newOutgoingTextMessage("bye");
-    engine.rootContext()->setContextProperty("ChatHandler", &chathandle);*/ // QVariant::fromValue(application.usersList)
+    ChatHandler chathandle;
+    engine.rootContext()->setContextProperty("ChatHandler", &chathandle);// QVariant::fromValue(application.usersList)
 
     engine.load(url);
 
