@@ -72,7 +72,7 @@ Page {
                         userListView.currentIndex = index;
                         userListView.initState = false;                        
                         ChatHandler.startNewChat(model.modelData.userIP);
-                        /// @todo find a way to choose the user here
+
                     }
 
                 }
@@ -96,6 +96,34 @@ Page {
                 width: parent.width
                 height: parent.height - typeArea.height
                 color: "#80cbc4"
+                ListView{
+                    id: chatListView
+                    anchors.fill: parent
+                    clip: true
+                    spacing: 10
+                    snapMode: ListView.NoSnap
+                    model: ChatHandler.activeChat
+                    flickableDirection: Flickable.AutoFlickIfNeeded
+                    delegate: MessageDelegate{
+                        width: parent.width
+                        text: display
+                        isOwn: decoration
+                      //  timeStamp: statusTip
+                        ScrollBar {
+                                 id: vbar
+                                 hoverEnabled: true
+                                 active: hovered || pressed
+                                 orientation: Qt.Vertical
+                                 size: chatListView.height //frame.height / content.height
+                                 anchors.top: parent.top
+                                 anchors.right: parent.right
+                                 anchors.bottom: parent.bottom
+                                 /// @todo fix scrollbar
+                             }
+                    }
+                    onModelChanged: positionViewAtEnd();
+                    Component.onCompleted: positionViewAtEnd();
+                }
             }
 
             Rectangle {
@@ -120,13 +148,6 @@ Page {
                         rightPadding: 10
                         width: parent.width
                         height:  contentHeight + 50 // 72
-//                        onContentHeightChanged: {
-//                            if(height > typeArea.maxHeight)
-//                                height = typeArea.maxHeight;
-//                            else{
-//                                height = contentHeight + 50;
-//                            }
-//                        }
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         placeholderText: qsTr("Type here")
                         //flickable: true

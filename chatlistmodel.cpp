@@ -13,9 +13,11 @@ int ChatListModel::rowCount(const QModelIndex &parent) const
 QVariant ChatListModel::data(const QModelIndex &index, int role) const
 {
     /// @todo change this implementation
-    return messageList.at(index.row()).text();
+    switch(role){
+    case Qt::DisplayRole: return messageList.at(index.row()).text();
+    case Qt::DecorationRole: return messageList.at(index.row()).isOwn();
+    }
 }
-
 void ChatListModel::addMessage(Message &message)
 {
     messageList.append(message);
