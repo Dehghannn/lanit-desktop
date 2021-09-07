@@ -5,6 +5,8 @@
 #include "tcpservice.h"
 #include "chatlistmodel.h"
 #include <QThread>
+#include <QAbstractItemModelTester>
+
 
 /**
  * @brief The ChatHandler class manages the active chat and passing it to qml
@@ -29,6 +31,7 @@ public slots:
 signals:
     void activeChatChanged();
     void noActiveChatChanged();
+    void newChatStarted(QString userIP);
     void newOutgoingTextMessage(Message message);
 private:
     TCPservice *networkService;

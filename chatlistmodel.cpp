@@ -1,5 +1,5 @@
 #include "chatlistmodel.h"
-
+#include <QDebug>
 ChatListModel::ChatListModel()
 {
 
@@ -17,10 +17,26 @@ QVariant ChatListModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole: return messageList.at(index.row()).text();
     case Qt::DecorationRole: return messageList.at(index.row()).isOwn();
     }
+    return -1;
+}
+
+bool ChatListModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if(count > 0){
+        QAbstractItemModel::beginInsertRows(parent, row, row + count - 1);
+    }else{
+        return false;
+    }
+
+    QAbstractItemModel::endInsertRows();
+    return true;
 }
 void ChatListModel::addMessage(Message &message)
 {
     messageList.append(message);
+    ChatListModel::insertRows(messageList.size() - 1, 1, QModelIndex());
+//    emit dataChanged()
+
 
 }
 

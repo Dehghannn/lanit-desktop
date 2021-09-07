@@ -8,6 +8,7 @@ TCPservice::TCPservice()
 void TCPservice::startService()
 {
     server = new TcpServer;
+    connect(server, &TcpServer::newIncomingTextMessage, this, &TCPservice::newIncomingTextFromServer);
 }
 
 void TCPservice::newOutgoingTextMessage(Message message)
@@ -18,6 +19,7 @@ void TCPservice::newOutgoingTextMessage(Message message)
         socket->write(message.text().toUtf8());
     }else{
         startNewConnection(message.getUserIP());
+        qDebug()<< "socket did not exist. starting a new connection...";
     }
 }
 
@@ -32,6 +34,16 @@ void TCPservice::newIncomingMessage()
     emit newIncomingTextMessage(*message);
 }
 
+void TCPservice::newIncomingTextFromServer(QString text, QString userIP)
+{
+    Message *message = new Message;
+    message->setText(text);
+    message->setIsOwn(false);
+    message->setUserIP(userIP);
+    /// @todo find a way to set the IP address here
+    emit newIncomingTextMessage(*message);
+}
+
 void TCPservice::startNewConnection(QString address)
 {
     QTcpSocket *socket = new QTcpSocket;
@@ -39,13 +51,8 @@ void TCPservice::startNewConnection(QString address)
     IPaddress.setAddress(address);
     connect(socket, &QTcpSocket::connected, this, &TCPservice::connected);
     connect(socket, &QTcpSocket::readyRead, this, &TCPservice::newIncomingMessage);
-    socket->connectToHost(IPaddress, server->getPort());
-        // we need to wait...
-//        if(!socket->waitForConnected(5000))
-//        {
-//            qDebug() << "Error: " << socket->errorString();
-//        }
-    //socket->bind(QHostAddress::AnyIPv4, server->getPort());
+    socket->setProxy(QNetworkProxy::NoProxy);
+    socket->connectToHost(IPaddress, server->getPort()); /// we dont have to wait for connected here
     socketList.append(socket);
 
 }

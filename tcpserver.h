@@ -15,8 +15,10 @@ public:
     void setPort(int value);
 
 signals:
+    void newIncomingTextMessage(QString text, QString userIP);
 private:
     QTcpServer *server;
+
     int port = 8890;
 public slots:
     void incommingConnection();

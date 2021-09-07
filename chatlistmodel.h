@@ -16,6 +16,8 @@ public:
 public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
+    bool insertRows(int row, int count, const QModelIndex &parent);
+
     void addMessage(Message &message);
     void reset();
 
@@ -26,6 +28,7 @@ public:
 private:
     QList<Message> messageList;
     QString userIP; /// IP of the other person in the chat
+
 
 };
 

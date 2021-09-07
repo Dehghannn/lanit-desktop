@@ -3,7 +3,7 @@
 TcpServer::TcpServer(QObject *parent) : QObject(parent)
 {
     server = new QTcpServer(this);
-    server->listen(QHostAddress::Any, port);
+    server->listen(QHostAddress::AnyIPv4, port);
     connect(server, &QTcpServer::newConnection, this, &TcpServer::incommingConnection);
 
 
@@ -32,6 +32,8 @@ void TcpServer::dataRead()
     QByteArray data;
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(sender());
     data = socket->readAll();
+    emit newIncomingTextMessage(data, socket->peerAddress().toString());
     qDebug() << "read this : " << data;
+    qDebug() << "from : " << socket->peerAddress().toString();
 
 }

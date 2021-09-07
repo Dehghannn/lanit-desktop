@@ -16,7 +16,6 @@ Page {
             id: usersHolderRect
             width: 148
             color: "#ffffff"
-            //radius: 5
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
             anchors.left: parent.left
@@ -53,8 +52,8 @@ Page {
                 clip: true
                 currentIndex: -1
                 populate: Transition {
-                        NumberAnimation { properties: "x,y"; duration: 1000 }
-                    }
+                    NumberAnimation { properties: "x,y"; duration: 1000 }
+                }
                 onModelChanged: {
                     if(initState)
                     {
@@ -70,8 +69,9 @@ Page {
                     highlighted: (userListView.currentIndex === index) ? true : false
                     onPressed: {
                         userListView.currentIndex = index;
-                        userListView.initState = false;                        
+                        userListView.initState = false;
                         ChatHandler.startNewChat(model.modelData.userIP);
+                        chatListView.update();
 
                     }
 
@@ -96,34 +96,33 @@ Page {
                 width: parent.width
                 height: parent.height - typeArea.height
                 color: "#80cbc4"
-                ListView{
-                    id: chatListView
+                ScrollView{
+                    id: scrollView
+                    contentWidth: -1
                     anchors.fill: parent
-                    clip: true
-                    spacing: 10
-                    snapMode: ListView.NoSnap
-                    model: ChatHandler.activeChat
-                    flickableDirection: Flickable.AutoFlickIfNeeded
-                    delegate: MessageDelegate{
-                        width: parent.width
-                        text: display
-                        isOwn: decoration
-                      //  timeStamp: statusTip
-                        ScrollBar {
-                                 id: vbar
-                                 hoverEnabled: true
-                                 active: hovered || pressed
-                                 orientation: Qt.Vertical
-                                 size: chatListView.height //frame.height / content.height
-                                 anchors.top: parent.top
-                                 anchors.right: parent.right
-                                 anchors.bottom: parent.bottom
-                                 /// @todo fix scrollbar
-                             }
+                    ListView{
+                        id: chatListView
+                        anchors.fill: parent
+                        clip: true
+                        spacing: 10
+                        model: ChatHandler.activeChat
+                        //flickableDirection: Flickable.AutoFlickIfNeeded
+                        delegate: MessageDelegate{
+                            width: parent.width
+                            text: display
+                            isOwn: decoration
+                            //Component.onCompleted: chatListView.positionViewAtEnd()
+                            //  timeStamp: statusTip
+                        }
+                        onContentHeightChanged: positionViewAtEnd();
+                        onModelChanged: positionViewAtEnd();
+                        Component.onCompleted: positionViewAtEnd();
                     }
-                    onModelChanged: positionViewAtEnd();
-                    Component.onCompleted: positionViewAtEnd();
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                    ScrollBar.horizontal.snapMode: ScrollBar.SnapOnRelease
                 }
+
+
             }
 
             Rectangle {
@@ -146,10 +145,16 @@ Page {
                         clip: true
                         font.pointSize: 10
                         rightPadding: 10
-                        width: parent.width
+                        width: typeArea.width -150
                         height:  contentHeight + 50 // 72
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        placeholderText: qsTr("Type here")
+                        Keys.onEnterPressed: {
+                            sendButton.clicked()
+                            console.log("enter pressed");
+                        }
+                        /// @todo fix sending by pressing enter
+                        placeholderText: qsTr("Write a message here...")
+                        //onAccepted: sendButton.clicked()
                         //flickable: true
                     }
                 }
@@ -160,7 +165,6 @@ Page {
                     y: 0
                     width: height
                     height: 66 //parent.height but not binded
-                    Component.onCompleted: console.log(height)
                     text: qsTr("Button")
                     flat: true
                     anchors.bottom: parent.bottom
@@ -172,7 +176,8 @@ Page {
                     onClicked: {
                         /// new outgoing message here
                         ChatHandler.newOutgoingTextMessageChatHandler(textArea.text);
-                        textArea.text = "";
+                        chatListView.update();
+                        textArea.clear();
                     }
                 }
                 RoundButton {
@@ -181,7 +186,6 @@ Page {
                     y: 0
                     width: height
                     height: 66 //parent.height but not binded
-                    Component.onCompleted: console.log(height)
                     text: qsTr("Button")
                     flat: true
                     anchors.bottom: parent.bottom

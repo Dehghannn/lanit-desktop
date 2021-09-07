@@ -1,4 +1,4 @@
-QT       += core quick network quickcontrols2
+QT       += core quick network quickcontrols2 testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
