@@ -11,6 +11,12 @@ Page {
         id: rectangle
         color: "#dee3e5"
         anchors.fill: parent
+        ToolBar{
+            width: parent.width
+            id: topBar
+            height: 50
+
+        }
 
         Rectangle {
             id: usersHolderRect
@@ -95,20 +101,23 @@ Page {
                 id: chatArea
                 width: parent.width
                 height: parent.height - typeArea.height
-                color: "#80cbc4"
+                color: "#c8dcdb"
                 ScrollView{
                     id: scrollView
                     contentWidth: -1
                     anchors.fill: parent
                     ListView{
                         id: chatListView
-                        anchors.fill: parent
+                        width: scrollView.width
+                        height: scrollView.height
+                        anchors.topMargin: 2
+                        anchors.bottomMargin: 3
                         clip: true
                         spacing: 10
                         model: ChatHandler.activeChat
                         //flickableDirection: Flickable.AutoFlickIfNeeded
                         delegate: MessageDelegate{
-                            width: parent.width
+                            width: chatListView.width
                             text: display
                             isOwn: decoration
                             //Component.onCompleted: chatListView.positionViewAtEnd()
@@ -143,15 +152,21 @@ Page {
                         x: 10
                         y: 0
                         clip: true
-                        font.pointSize: 10
+                        font.pointSize: 12
                         rightPadding: 10
                         width: typeArea.width -150
                         height:  contentHeight + 50 // 72
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        Keys.onEnterPressed: {
-                            sendButton.clicked()
-                            console.log("enter pressed");
+                        function _onEnterKeyPressed(event) {
+                            if(!(event.modifiers & Qt.ShiftModifier)){
+                                sendButton.clicked()
+                            }else{
+                                event.accepted = false;
+                            }
                         }
+                        Keys.onReturnPressed: _onEnterKeyPressed(event)
+                        Keys.onEnterPressed: _onEnterKeyPressed(event)
+
                         /// @todo fix sending by pressing enter
                         placeholderText: qsTr("Write a message here...")
                         //onAccepted: sendButton.clicked()
@@ -202,8 +217,4 @@ Page {
     }
 }
 
-/*##^##
-Designer {
-    D{i:3;anchors_height:513;anchors_y:43}D{i:5;anchors_height:513;anchors_y:43}D{i:2;anchors_height:513;anchors_x:32;anchors_y:43}
-}
-##^##*/
+

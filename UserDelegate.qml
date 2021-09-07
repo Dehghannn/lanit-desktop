@@ -34,7 +34,7 @@ Item {
                 id: text
                 text: userDelegate.text
                 color: userDelegate.highlighted? "white" : "black"
-                font.pixelSize: 15
+                font.pointSize: 11
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 leftPadding: 10

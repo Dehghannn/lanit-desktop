@@ -17,7 +17,7 @@ Item {
             id: messageBubble
             radius: 3
             height: messageText.height + 20
-            color: root.isOwn ? "#40d4c2" : "#10a2a1"
+            color: root.isOwn ? "#82ada9" : "#b2dfdb"
             //width: messageText.width + 10
             width: messageText.contentWidth + 30
             anchors.verticalCenter: messageHolder.verticalCenter
@@ -31,18 +31,19 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: 15
+                color:  "black"
                 //anchors.right: parent.right /// @todo fix this
                 anchors.rightMargin: 5
                 height: contentHeight
-                width: contentWidth//messageHolder.width / 2
+                width: contentWidth > (messageHolder.width / 2) ? messageHolder.width / 2 : contentWidth//messageHolder.width / 2
 
               //  width: contentWidth + 15
                 clip: true
                 id: messageText
                 text: root.text
-                wrapMode: Text.WordWrap
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-                font.pointSize: 12
+                font.pointSize: 11
 
 
             }
