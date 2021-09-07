@@ -110,7 +110,9 @@ Page {
                         id: chatListView
                         width: scrollView.width
                         height: scrollView.height
-                        anchors.topMargin: 2
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.topMargin: 4
                         anchors.bottomMargin: 3
                         clip: true
                         spacing: 10
