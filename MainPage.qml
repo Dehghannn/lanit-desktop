@@ -106,6 +106,7 @@ Page {
                     id: scrollView
                     contentWidth: -1
                     anchors.fill: parent
+
                     ListView{
                         id: chatListView
                         width: scrollView.width
@@ -114,6 +115,7 @@ Page {
                         anchors.bottom: parent.bottom
                         anchors.topMargin: 4
                         anchors.bottomMargin: 3
+
                         clip: true
                         spacing: 10
                         model: ChatHandler.activeChat
@@ -130,7 +132,7 @@ Page {
                         Component.onCompleted: positionViewAtEnd();
                     }
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                    ScrollBar.horizontal.snapMode: ScrollBar.SnapOnRelease
+                    //ScrollBar.horizontal.snapMode: ScrollBar.SnapOnRelease
                 }
 
 

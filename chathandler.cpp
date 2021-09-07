@@ -34,6 +34,16 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     activeChat()->addMessage(*message);
     activeChat()->addMessage(*message);
     activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
+    activeChat()->addMessage(*message);
 }
 
 void ChatHandler::startNewChat(QString userIP)

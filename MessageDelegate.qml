@@ -19,13 +19,14 @@ Item {
             height: messageText.height + 20
             color: root.isOwn ? "#82ada9" : "#b2dfdb"
             //width: messageText.width + 10
-            width: messageText.contentWidth + 30
+            //width: messageText.contentWidth + 30
+            implicitWidth: Math.min( messageText.implicitWidth , messageHolder.width/2) + 30
             anchors.verticalCenter: messageHolder.verticalCenter
             anchors.left: isOwn? undefined : parent.left
             anchors.leftMargin: isOwn? undefined : 10
             anchors.right: isOwn? parent.right: undefined
             anchors.rightMargin: isOwn? 10 : undefined
-                Text {
+            Text {
                 //anchors.top: parent.top
                 //anchors.topMargin: 5
                 anchors.verticalCenter: parent.verticalCenter
@@ -35,9 +36,7 @@ Item {
                 //anchors.right: parent.right /// @todo fix this
                 anchors.rightMargin: 5
                 height: contentHeight
-                width: contentWidth > (messageHolder.width / 2) ? messageHolder.width / 2 : contentWidth//messageHolder.width / 2
-
-              //  width: contentWidth + 15
+                width: parent.width - 30
                 clip: true
                 id: messageText
                 text: root.text
