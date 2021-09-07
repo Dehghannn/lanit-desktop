@@ -178,6 +178,13 @@ Page {
                     id: sendButton
                     x: parent.width - width
                     y: 0
+                    enabled: {
+                        if(textArea.text === ""){
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    }
                     width: height
                     height: 66 //parent.height but not binded
                     text: qsTr("Button")
@@ -190,9 +197,11 @@ Page {
                     icon.color: Material.color(Material.Teal, Material.Shade800)
                     onClicked: {
                         /// new outgoing message here
-                        ChatHandler.newOutgoingTextMessageChatHandler(textArea.text);
-                        chatListView.update();
-                        textArea.clear();
+                        if(textArea.text !== ""){
+                            ChatHandler.newOutgoingTextMessageChatHandler(textArea.text);
+                            chatListView.update();
+                            textArea.clear();
+                        }
                     }
                 }
                 RoundButton {
