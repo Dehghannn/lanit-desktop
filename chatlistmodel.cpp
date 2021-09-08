@@ -2,6 +2,10 @@
 #include <QDebug>
 ChatListModel::ChatListModel()
 {
+    /// declaring roleNames
+    names[MessageRole] = "message";
+    names[TimeRole] = "time";
+    names[OwnershipRole] = "ownership";
 
 }
 
@@ -14,8 +18,9 @@ QVariant ChatListModel::data(const QModelIndex &index, int role) const
 {
     /// @todo change this implementation
     switch(role){
-    case Qt::DisplayRole: return messageList.at(index.row()).text();
-    case Qt::DecorationRole: return messageList.at(index.row()).isOwn();
+    case MessageRole: return messageList.at(index.row()).text();
+    case OwnershipRole: return messageList.at(index.row()).isOwn();
+    case TimeRole : return messageList.at(index.row()).getTime();
     }
     return -1;
 }
@@ -30,6 +35,11 @@ bool ChatListModel::insertRows(int row, int count, const QModelIndex &parent)
 
     QAbstractItemModel::endInsertRows();
     return true;
+}
+
+QHash<int, QByteArray> ChatListModel::roleNames() const
+{
+        return names;
 }
 void ChatListModel::addMessage(Message &message)
 {

@@ -114,16 +114,16 @@ Page {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         anchors.topMargin: 4
-                        anchors.bottomMargin: 3
-
+                        anchors.bottomMargin: 3            
                         clip: true
                         spacing: 10
                         model: ChatHandler.activeChat
                         //flickableDirection: Flickable.AutoFlickIfNeeded
                         delegate: MessageDelegate{
                             width: chatListView.width
-                            text: display
-                            isOwn: decoration
+                            text: message
+                            isOwn: ownership
+                            timeStamp: time
                             //Component.onCompleted: chatListView.positionViewAtEnd()
                             //  timeStamp: statusTip
                         }
@@ -150,7 +150,8 @@ Page {
                     y: 0
                     clip: true
                     width: parent.width - 150
-                    height: textArea.height
+                    height: contentHeight + 15
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
                     TextArea {
                         id: textArea
                         x: 10

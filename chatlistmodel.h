@@ -17,6 +17,7 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     bool insertRows(int row, int count, const QModelIndex &parent);
+    QHash<int, QByteArray> roleNames() const;
 
     void addMessage(Message &message);
     void reset();
@@ -25,9 +26,17 @@ public:
     QString getUserIP() const;
     void setUserIP(const QString &value);
 
+
+    enum {
+        MessageRole = Qt::UserRole +1 ,
+        TimeRole,
+        OwnershipRole
+    };
+
 private:
     QList<Message> messageList;
     QString userIP; /// IP of the other person in the chat
+    QHash<int, QByteArray> names; /// hash map used for roleNames
 
 
 };

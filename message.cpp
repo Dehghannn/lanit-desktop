@@ -2,7 +2,8 @@
 
 Message::Message()
 {
-
+    m_time = QTime::currentTime().toString();
+    m_time.chop(3);
 }
 
 QString Message::text() const
@@ -43,4 +44,14 @@ QString Message::getUserIP() const
 void Message::setUserIP(const QString &value)
 {
     userIP = value;
+}
+
+QString Message::getTime() const
+{
+    return m_time;
+}
+
+void Message::setTime(const QString &time)
+{
+    m_time = time;
 }

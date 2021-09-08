@@ -2,6 +2,7 @@
 #define MESSAGE_H
 #include <QString>
 #include <QMetaType>
+#include <QTime>
 /**
  * @brief The Message class represents a message in a chat
  */
@@ -21,8 +22,12 @@ public:
     QString getUserIP() const;
     void setUserIP(const QString &value);
 
+    QString getTime() const;
+    void setTime(const QString &time);
+
 private:
-    QString m_text = "";
+    QString m_text;
+    QString m_time = "";
     bool m_isOwn = false;
     bool m_isFile = false;
     QString userIP;
