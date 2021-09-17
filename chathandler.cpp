@@ -83,16 +83,19 @@ void ChatHandler::newOutgoingTextMessageChatHandler(QString text)
 void ChatHandler::newIncomingTextMessage(Message message)
 {
     User *user = new User;
-    ChatListModel *chatListModel; // = new ChatListModel;
+    ChatListModel *chatListModel;
     user->setUserIP(message.getUserIP());
-    if(userChatMap.keys().contains(*user)){
+    if(userChatMap.keys().contains(*user)){ /// @todo check if this is necessary (chatListModel will be null if not)
         chatListModel = userChatMap.value(*user);
         chatListModel->addMessage(message);
-        ///@todo notify user from new message
+
         qDebug() << "new message from : " << user->userIP();
         qDebug() << message.text();
+        ///@todo notify user from new message
+        emit newMessageNotification(message.getUserIP(), message.text());
 
     }
+
 }
 
 bool ChatHandler::noActiveChat() const

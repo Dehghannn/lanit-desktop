@@ -114,7 +114,7 @@ Page {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         anchors.topMargin: 4
-                        anchors.bottomMargin: 3            
+                        anchors.bottomMargin: 3
                         clip: true
                         spacing: 10
                         model: ChatHandler.activeChat
@@ -228,6 +228,15 @@ Page {
         }
 
 
+    }
+    Connections{
+        target: ChatHandler
+        function onNewMessageNotification( IP,text) { /// @todo make notification look better
+            if(!window.active){
+                var nickname = appCpp.getNickNamebyIP(IP);
+                sysTray.showMessage("New Message", nickname + " says: " + text);
+            }
+        }
     }
 }
 

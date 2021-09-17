@@ -25,6 +25,14 @@ QList<User*> App::userList()
     return m_usersList;
 }
 
+QString App::getNickNamebyIP(QString ip)
+{
+    User *user = new User;
+    user->setUserIP(ip);
+    int index = getUserIndex(*user);
+    return userList().at(index)->nickName();
+}
+
 void App::startUDPservice()
 {
     BroadCaster = new UDPbroadcaster;

@@ -27,12 +27,13 @@ public:
 public slots:
     void startNewChat(QString userIP);
     void newOutgoingTextMessageChatHandler(QString text);
-    void newIncomingTextMessage(Message message); /// @todo implement this
+    void newIncomingTextMessage(Message message);
 signals:
     void activeChatChanged();
     void noActiveChatChanged();
     void newChatStarted(QString userIP);
     void newOutgoingTextMessage(Message message);
+    void newMessageNotification(QString ip, QString messageText);
 private:
     TCPservice *networkService;
     QHash<User, ChatListModel*> userChatMap;

@@ -16,6 +16,7 @@ public:
     QString nickName() const;
     void setNickName(const QString &nickName);
     QList<User*> userList();
+    Q_INVOKABLE QString getNickNamebyIP(QString ip);
 public slots:
     void startUDPservice();
     void newDatagramReceived(QNetworkDatagram datagram);

@@ -12,5 +12,6 @@
         <file>icons/offlineIcon.png</file>
         <file>icons/onlineIcon.png</file>
         <file>icons/sendIcon.png</file>
+        <file>icons/icons8-l-100.png</file>
     </qresource>
 </RCC>
