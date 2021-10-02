@@ -35,18 +35,14 @@ Window {
 
         initialItem:  LoginPage{
             id: loginPage
-            anchors.fill : parent
             onLoginButtonPressed: {
                 stackView.push(mainPage);
             }
         }
         MainPage{
             id: mainPage
-            anchors.fill: parent
 
         }
-
-
 
     }
 
