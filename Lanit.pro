@@ -19,6 +19,7 @@ SOURCES += \
     app.cpp \
     chathandler.cpp \
     chatlistmodel.cpp \
+    filetransferhandler.cpp \
     main.cpp \
     message.cpp \
     tcpserver.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     app.h \
     chathandler.h \
     chatlistmodel.h \
+    filetransferhandler.h \
     message.h \
     tcpserver.h \
     tcpservice.h \
