@@ -23,6 +23,7 @@ void TcpServer::incommingConnection()
 {
     QTcpSocket *socket = server->nextPendingConnection();
     connect(socket, &QTcpSocket::readyRead, this, &TcpServer::dataRead);
+    emit newIncommingConnectionFromServer(socket);
     socket->waitForDisconnected();
 
 }
@@ -37,3 +38,5 @@ void TcpServer::dataRead()
     qDebug() << "from : " << socket->peerAddress().toString();
 
 }
+
+

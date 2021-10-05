@@ -59,6 +59,14 @@ void TCPservice::startNewConnection(QString address)
 
 }
 
+void TCPservice::newIncommingConnectionFromServer(QTcpSocket *socket)
+{
+    socketList.append(socket); ///added incoming connection to list so that no new connection is created
+    connect(socket, &QTcpSocket::disconnected, this, &TCPservice::disConnected);
+    emit connectionStateChanged(socket->peerAddress().toString(), ChatListModel::Connected);
+
+}
+
 void TCPservice::connected()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket*> (sender());

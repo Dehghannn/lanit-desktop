@@ -19,6 +19,7 @@ public slots:
     void newIncomingMessage();
     void newIncomingTextFromServer(QString text, QString userIP);
     void startNewConnection(QString address);
+    void newIncommingConnectionFromServer(QTcpSocket* socket);
 
     /// connection handling slots
     void connected();

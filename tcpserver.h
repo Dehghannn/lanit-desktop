@@ -16,6 +16,7 @@ public:
 
 signals:
     void newIncomingTextMessage(QString text, QString userIP);
+    void newIncommingConnectionFromServer(QTcpSocket* socket);
 private:
     QTcpServer *server;
 
