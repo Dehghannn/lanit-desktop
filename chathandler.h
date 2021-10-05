@@ -29,6 +29,7 @@ public slots:
     void newOutgoingTextMessageChatHandler(QString text);
     void newIncomingTextMessage(Message message);
     void connectionStateChangedSlot(QString Address, int state);
+    void incommingConnection(QString Address);
 signals:
     void activeChatChanged();
     void noActiveChatChanged();
@@ -43,6 +44,7 @@ private:
     bool m_noActiveChat;
     ChatListModel *emptyChat;
     QThread *serverThread;
+    void setConnectionState(ChatListModel* chat, int state);
 };
 
 #endif // CHATHANDLER_H

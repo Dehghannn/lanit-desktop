@@ -11,8 +11,9 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     connect(serverThread, &QThread::started, networkService, &TCPservice::startService);
     connect(networkService, &TCPservice::newIncomingTextMessage, this, &ChatHandler::newIncomingTextMessage);
     connect(networkService, &TCPservice::connectionStateChanged, this, &ChatHandler::connectionStateChangedSlot);
+    connect(networkService, &TCPservice::incommingConnection, this, &ChatHandler::incommingConnection);
     connect(this, &ChatHandler::newOutgoingTextMessage, networkService, &TCPservice::newOutgoingTextMessage);
-     connect(this, &ChatHandler::newChatStarted, networkService, &TCPservice::startNewConnection);
+    connect(this, &ChatHandler::newChatStarted, networkService, &TCPservice::startNewConnection);
     serverThread->start();
 
     //test Code
@@ -88,14 +89,19 @@ void ChatHandler::newIncomingTextMessage(Message message)
     user->setUserIP(message.getUserIP());
     if(userChatMap.keys().contains(*user)){ /// @todo check if this is necessary (chatListModel will be null if not)
         chatListModel = userChatMap.value(*user);
-        chatListModel->addMessage(message);
-
-        qDebug() << "new message from : " << user->userIP();
-        qDebug() << message.text();
         ///@todo notify user from new message
-        emit newMessageNotification(message.getUserIP(), message.text());
 
+
+    }else{
+        qDebug() << "creating a new user and chat";
+        chatListModel = new ChatListModel;
+        chatListModel->setUserIP(user->userIP());
+        userChatMap.insert(*user, chatListModel);
     }
+    qDebug() << "new message from : " << user->userIP();
+    qDebug() << message.text();
+    chatListModel->addMessage(message);
+    emit newMessageNotification(message.getUserIP(), message.text());
 
 }
 
@@ -131,7 +137,29 @@ void ChatHandler::connectionStateChangedSlot(QString Address, int state)
     user.setUserIP(Address);
     chat = userChatMap.value(user);
     if(chat != nullptr){
-    qDebug() << "Chat Status changed";
+        qDebug() << "Chat Status changed";
+        setConnectionState(chat, state);
+    }
+    qDebug() << "chat was null. no state changed";
+}
+
+void ChatHandler::incommingConnection(QString Address)
+{
+    User *user = new User;
+    ChatListModel *chatListModel;
+    user->setUserIP(Address);
+    if(!userChatMap.keys().contains(*user)){
+        qDebug() << "creating a new user and chat";
+        chatListModel = new ChatListModel;
+        chatListModel->setUserIP(user->userIP());
+        userChatMap.insert(*user, chatListModel);
+        setConnectionState(chatListModel, ChatListModel::Connected);
+    }
+
+}
+
+void ChatHandler::setConnectionState(ChatListModel *chat, int state)
+{
     switch (state) {
     case ChatListModel::Connecting:
         chat->setConnectionState("Connecting");
@@ -141,8 +169,6 @@ void ChatHandler::connectionStateChangedSlot(QString Address, int state)
         break;
     case ChatListModel::Disconnected:
         chat->setConnectionState("Disconnected");
-
-    }
     }
 }
 

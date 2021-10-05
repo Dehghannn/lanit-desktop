@@ -64,7 +64,8 @@ void TCPservice::newIncommingConnectionFromServer(QTcpSocket *socket)
 {
     socketList.append(socket); ///added incoming connection to list so that no new connection is created
     connect(socket, &QTcpSocket::disconnected, this, &TCPservice::disConnected);
-    emit connectionStateChanged(socket->peerAddress().toString(), ChatListModel::Connected);
+//    emit connectionStateChanged(socket->peerAddress().toString(), ChatListModel::Connected);
+    emit incommingConnection(socket->peerAddress().toString());
 
 }
 

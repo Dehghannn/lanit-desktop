@@ -27,6 +27,7 @@ public slots:
 signals:
     void newIncomingTextMessage(Message message);
     void connectionStateChanged(QString IP, int state);
+    void incommingConnection(QString Address); /// used to create a chat in case of incomming connection
 private:
     TcpServer *server;
     QList<QTcpSocket*> socketList;
