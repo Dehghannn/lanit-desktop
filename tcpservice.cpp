@@ -9,6 +9,7 @@ void TCPservice::startService()
 {
     server = new TcpServer;
     connect(server, &TcpServer::newIncomingTextMessage, this, &TCPservice::newIncomingTextFromServer);
+    connect(server, &TcpServer::newIncommingConnectionFromServer, this, &TCPservice::newIncommingConnectionFromServer);
 }
 
 void TCPservice::newOutgoingTextMessage(Message message)
