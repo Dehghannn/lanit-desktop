@@ -6,6 +6,7 @@
 #include "tcpserver.h"
 #include "message.h"
 #include "user.h"
+#include "chatlistmodel.h"
 
 class TCPservice : public QObject
 {
@@ -18,9 +19,13 @@ public slots:
     void newIncomingMessage();
     void newIncomingTextFromServer(QString text, QString userIP);
     void startNewConnection(QString address);
+
+    /// connection handling slots
     void connected();
+    void disConnected();
 signals:
     void newIncomingTextMessage(Message message);
+    void connectionStateChanged(QString IP, int state);
 private:
     TcpServer *server;
     QList<QTcpSocket*> socketList;

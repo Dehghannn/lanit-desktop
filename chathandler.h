@@ -28,6 +28,7 @@ public slots:
     void startNewChat(QString userIP);
     void newOutgoingTextMessageChatHandler(QString text);
     void newIncomingTextMessage(Message message);
+    void connectionStateChangedSlot(QString Address, int state);
 signals:
     void activeChatChanged();
     void noActiveChatChanged();

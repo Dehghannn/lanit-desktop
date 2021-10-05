@@ -9,12 +9,13 @@ Page {
     height: 600
     Rectangle{
         id: rectangle
-        color: "#dee3e5"
+        //color: Material.color(Material.Teal, Material.Shade400) //"#dee3e5"
         anchors.fill: parent
-        ToolBar{
-            width: parent.width
+        Rectangle{
             id: topBar
+            width: 149
             height: 50
+            color: Material.color(Material.Teal, Material.Shade900)
 
         }
 
@@ -94,13 +95,39 @@ Page {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
             anchors.top: parent.top
-            anchors.topMargin: 50
+            anchors.topMargin: 0
             anchors.right: parent.right
             anchors.rightMargin: 0
             Rectangle{
+                id: chatTopBar
+                height: 50
+                width: parent.width
+                anchors.right: parent.right
+                anchors.bottom: chatArea.top
+                z: 2
+                color: Material.color(Material.Teal, Material.Shade900);
+                Text {
+                    id: connectionStatus
+                    text: {
+                        if(userListView.initState){
+                            return "No Chat Selected"
+                        }else{
+                            return ChatHandler.activeChat.connectionState
+                        }
+                    }
+                    font.pointSize: 8
+                    color: Material.color(Material.Teal, Material.Shade100)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+
+                }
+
+            }
+            Rectangle{
                 id: chatArea
                 width: parent.width
-                height: parent.height - typeArea.height
+                height: parent.height - typeArea.height - chatTopBar.height
+                y: chatTopBar.height
                 color: "#c8dcdb"
                 ScrollView{
                     id: scrollView
@@ -123,9 +150,7 @@ Page {
                             width: chatListView.width
                             text: message
                             isOwn: ownership
-                            timeStamp: time
-                            //Component.onCompleted: chatListView.positionViewAtEnd()
-                            //  timeStamp: statusTip
+                            timeStamp: time                                                  
                         }
                         onContentHeightChanged: positionViewAtEnd();
                         onModelChanged: positionViewAtEnd();

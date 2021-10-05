@@ -10,6 +10,7 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     networkService->moveToThread(serverThread);
     connect(serverThread, &QThread::started, networkService, &TCPservice::startService);
     connect(networkService, &TCPservice::newIncomingTextMessage, this, &ChatHandler::newIncomingTextMessage);
+    connect(networkService, &TCPservice::connectionStateChanged, this, &ChatHandler::connectionStateChangedSlot);
     connect(this, &ChatHandler::newOutgoingTextMessage, networkService, &TCPservice::newOutgoingTextMessage);
      connect(this, &ChatHandler::newChatStarted, networkService, &TCPservice::startNewConnection);
     serverThread->start();
@@ -123,3 +124,25 @@ void ChatHandler::setActiveChat(ChatListModel *activeChat)
     emit activeChatChanged();
     qDebug() << "active chat user is " << activeChat->getUserIP();
 }
+void ChatHandler::connectionStateChangedSlot(QString Address, int state)
+{
+    ChatListModel *chat;
+    User user;
+    user.setUserIP(Address);
+    chat = userChatMap.value(user);
+    if(chat != nullptr){
+    qDebug() << "Chat Status changed";
+    switch (state) {
+    case ChatListModel::Connecting:
+        chat->setConnectionState("Connecting");
+        break;
+    case ChatListModel::Connected:
+        chat->setConnectionState("Connected");
+        break;
+    case ChatListModel::Disconnected:
+        chat->setConnectionState("Disconnected");
+
+    }
+    }
+}
+

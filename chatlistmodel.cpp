@@ -7,6 +7,8 @@ ChatListModel::ChatListModel()
     names[TimeRole] = "time";
     names[OwnershipRole] = "ownership";
 
+    m_connectionState = "Disconnected";
+
 }
 
 int ChatListModel::rowCount(const QModelIndex &parent) const
@@ -39,13 +41,13 @@ bool ChatListModel::insertRows(int row, int count, const QModelIndex &parent)
 
 QHash<int, QByteArray> ChatListModel::roleNames() const
 {
-        return names;
+    return names;
 }
 void ChatListModel::addMessage(Message &message)
 {
     messageList.append(message);
     ChatListModel::insertRows(messageList.size() - 1, 1, QModelIndex());
-//    emit dataChanged()
+    //    emit dataChanged()
 
 
 }
@@ -65,4 +67,18 @@ void ChatListModel::setUserIP(const QString &value)
 {
     userIP = value;
 }
+
+const QString &ChatListModel::connectionState() const
+{
+    return m_connectionState;
+}
+
+void ChatListModel::setConnectionState(const QString &newConnectionState)
+{
+    if (m_connectionState == newConnectionState)
+        return;
+    m_connectionState = newConnectionState;
+    emit connectionStateChanged();
+}
+
 

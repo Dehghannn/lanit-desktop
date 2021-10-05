@@ -50,17 +50,30 @@ void TCPservice::startNewConnection(QString address)
     QHostAddress IPaddress;
     IPaddress.setAddress(address);
     connect(socket, &QTcpSocket::connected, this, &TCPservice::connected);
+    connect(socket, &QTcpSocket::disconnected, this, &TCPservice::disConnected);
     connect(socket, &QTcpSocket::readyRead, this, &TCPservice::newIncomingMessage);
     socket->setProxy(QNetworkProxy::NoProxy);
     socket->connectToHost(IPaddress, server->getPort()); /// we dont have to wait for connected here
     socketList.append(socket);
+    emit connectionStateChanged(address, ChatListModel::Connecting);
 
 }
 
 void TCPservice::connected()
 {
     QTcpSocket *socket = qobject_cast<QTcpSocket*> (sender());
-    qDebug() << "connected to " << socket->peerAddress().toString();
+    QString Address = socket->peerAddress().toString();
+    qDebug() << "connected to " << Address;
+    emit connectionStateChanged(Address, ChatListModel::Connected);
+}
+
+void TCPservice::disConnected()
+{
+    QTcpSocket *socket = qobject_cast<QTcpSocket*> (sender());
+    QString Address = socket->peerAddress().toString();
+    qDebug() << Address << " disconnected";
+    emit connectionStateChanged(Address, ChatListModel::Disconnected);
+
 }
 
 QTcpSocket* TCPservice::getSocketByIP(QString ip)

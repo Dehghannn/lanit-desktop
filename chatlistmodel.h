@@ -10,8 +10,7 @@ class ChatListModel : public QAbstractListModel
     Q_OBJECT
 public:
     ChatListModel();
-
-
+    Q_PROPERTY(QString connectionState READ connectionState WRITE setConnectionState NOTIFY connectionStateChanged)
     // QAbstractItemModel interface
 public:
     int rowCount(const QModelIndex &parent) const;
@@ -33,10 +32,24 @@ public:
         OwnershipRole
     };
 
+    enum{
+        Connected,
+        Disconnected,
+        Connecting
+    };
+
+    const QString &connectionState() const;
+    void setConnectionState(const QString &newConnectionState);
+
+signals:
+    void connectionStateChanged();
+
 private:
     QList<Message> messageList;
     QString userIP; /// IP of the other person in the chat
     QHash<int, QByteArray> names; /// hash map used for roleNames
+    QString m_connectionState;
+
 
 
 };
