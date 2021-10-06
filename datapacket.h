@@ -14,21 +14,22 @@ public:
       FileRequest,
       Response
     };
-    int size() const;
-    void setSize(int newSize);
+    quint16 contentSize() const;
+    void setContentSize(quint16 newSize);
 
-    int type() const;
-    void setType(int newType);
+    qint8 type() const;
+    void setType(qint8 newType);
     void setFromMessage(const Message &message);
     void setFromFile(const QFile &file);
     void setAcceptedResponse();
     void setRejectedResponse();
     unsigned char* Data();
+    void fromData(QByteArray data);
 
 private:
-    int m_size;
-    int m_type;
-    unsigned char* ptr;
+    quint16 m_contentSize;
+    qint8 m_type;
+    QByteArray data;
 };
 
 #endif // DATAPACKET_H
