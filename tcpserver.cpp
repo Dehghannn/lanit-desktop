@@ -33,9 +33,18 @@ void TcpServer::dataRead()
     QByteArray data;
     QTcpSocket *socket = qobject_cast<QTcpSocket*>(sender());
     data = socket->readAll();
-    emit newIncomingTextMessage(data, socket->peerAddress().toString());
-    qDebug() << "read this : " << data;
-    qDebug() << "from : " << socket->peerAddress().toString();
+    DataPacket packet;
+    while (packet.extractPacket(data)) {
+        switch (packet.type()) {
+            case DataPacket::TextMessage :
+            emit newIncomingTextMessage( packet.getContent(), socket->peerAddress().toString());
+            qDebug() << "read this : " << data;
+            qDebug() << "from : " << socket->peerAddress().toString();
+            break;
+
+        }
+
+    }
 
 }
 

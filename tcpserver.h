@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include "datapacket.h"
 
 class TcpServer : public QObject
 {

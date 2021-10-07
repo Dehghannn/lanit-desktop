@@ -17,7 +17,9 @@ void TCPservice::newOutgoingTextMessage(Message message)
     QTcpSocket *socket;
     socket = getSocketByIP(message.getUserIP());
     if(socket != nullptr){
-        socket->write(message.text().toUtf8());
+        DataPacket packet;
+        packet.setFromMessage(message);
+        socket->write(packet.Data());
     }else{
         startNewConnection(message.getUserIP());
         qDebug()<< "socket did not exist. starting a new connection...";
@@ -28,11 +30,17 @@ void TCPservice::newIncomingMessage()
 {
     /// @todo change this so that can detect files
     QTcpSocket *socket = qobject_cast<QTcpSocket*> (sender());
-    QString data = socket->readAll();
-    Message *message = new Message;
-    message->setText(data);
-    message->setUserIP(socket->peerAddress().toString());
-    emit newIncomingTextMessage(*message);
+    QByteArray data = socket->readAll();
+    DataPacket packet;
+    while (packet.extractPacket(data)) { ///handle all messages here
+        if(packet.type() == DataPacket::TextMessage){
+            Message *message = new Message;
+            message->setText(packet.getContent());
+            message->setUserIP(socket->peerAddress().toString());
+            emit newIncomingTextMessage(*message);
+        }
+    }
+
 }
 
 void TCPservice::newIncomingTextFromServer(QString text, QString userIP)
@@ -64,7 +72,7 @@ void TCPservice::newIncommingConnectionFromServer(QTcpSocket *socket)
 {
     socketList.append(socket); ///added incoming connection to list so that no new connection is created
     connect(socket, &QTcpSocket::disconnected, this, &TCPservice::disConnected);
-//    emit connectionStateChanged(socket->peerAddress().toString(), ChatListModel::Connected);
+    //    emit connectionStateChanged(socket->peerAddress().toString(), ChatListModel::Connected);
     emit incommingConnection(socket->peerAddress().toString());
 
 }

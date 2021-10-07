@@ -7,6 +7,7 @@
 #include "message.h"
 #include "user.h"
 #include "chatlistmodel.h"
+#include "datapacket.h"
 
 class TCPservice : public QObject
 {

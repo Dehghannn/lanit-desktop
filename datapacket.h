@@ -1,6 +1,7 @@
 #ifndef DATAPACKET_H
 #define DATAPACKET_H
 #include <QFile>
+#include <QDebug>
 #include "message.h"
 
 class DataPacket
@@ -23,10 +24,13 @@ public:
     void setFromFile(const QFile &file);
     void setAcceptedResponse();
     void setRejectedResponse();
-    unsigned char* Data();
+    QByteArray Data();
     void fromData(QByteArray data);
+    bool extractPacket(QByteArray &array);
+    QByteArray getContent();
 
 private:
+    static const quint8 headerSize = 3;
     quint16 m_contentSize;
     qint8 m_type;
     QByteArray data;
