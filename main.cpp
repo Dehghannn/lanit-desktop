@@ -17,10 +17,11 @@ int main(int argc, char *argv[])
 
       QQuickStyle::setStyle("Material");
 
-    App application;
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
+    App application;
 
     qRegisterMetaType<Message>();
 

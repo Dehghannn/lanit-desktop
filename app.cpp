@@ -33,6 +33,20 @@ QString App::getNickNamebyIP(QString ip)
     return userList().at(index)->nickName();
 }
 
+void App::getAttachedFile()
+{
+    fileDialog.setFileMode(QFileDialog::ExistingFile);
+    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::HomeLocation).last());
+    QString fileName;
+    if(fileDialog.exec()){
+        fileName = fileDialog.selectedFiles().last();
+        emit newOutgoingFile(fileName); /// after a file is selected this will trigger a transfer
+        qDebug() << fileName;
+    }
+
+}
+
+
 void App::startUDPservice()
 {
     BroadCaster = new UDPbroadcaster;
@@ -48,9 +62,7 @@ void App::newDatagramReceived(QNetworkDatagram datagram)
     User *user = new User;
     user->setNickName(datagram.data());
     user->setUserIP(datagram.senderAddress());
-//    for(int i = 0; i < m_usersList.size(); i++){
-//        qDebug() << m_usersList.at(i)->nickName();
-//    }
+
     int index = getUserIndex(*user);
     if(index == -1){
         user->setIsOnline(true);

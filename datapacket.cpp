@@ -27,7 +27,7 @@ void DataPacket::setType(qint8 newType)
 
 void DataPacket::setFromMessage(const Message &message)
 {
-    QString messageText = message.text();
+    QByteArray messageText = message.text().toUtf8(); /// need to be in UTF8
     setType(DataPacket::TextMessage);
     setContentSize(messageText.size());
 //    QByteArray size(2);
@@ -36,7 +36,7 @@ void DataPacket::setFromMessage(const Message &message)
     c[0] = (m_contentSize >> 8);
     data.append(c, 2);
     data.append(m_type);
-    data.append(messageText.toUtf8());
+    data.append(messageText);
     qDebug() << data;
     qDebug() << data.size();
 }

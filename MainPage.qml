@@ -1,7 +1,8 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.13
+import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.3
 import QtPositioning 5.14
+import QtQuick.Dialogs 1.2
 
 Page {
     id: loginPage
@@ -16,6 +17,18 @@ Page {
             width: 149
             height: 50
             color: Material.color(Material.Teal, Material.Shade900)
+            Button{
+                id: hamburgerButton
+                anchors.centerIn: parent
+                width: 50
+                height: 50
+                display: AbstractButton.IconOnly
+                flat: true
+                icon.source: "qrc:/icons/menu.png"
+                icon.color: "white"
+                icon.width: 45
+                icon.height: 45
+            }
 
         }
 
@@ -38,7 +51,7 @@ Page {
                 clip: true
                 radius: 0
                 width: parent.width
-                color: "#00695c"
+                color: "#39796b"
                 Text {
 
                     anchors.centerIn: parent
@@ -205,7 +218,7 @@ Page {
                 }
 
                 RoundButton {
-                    id: sendButton
+                    id: sendButton                    
                     x: parent.width - width
                     y: 0
                     enabled: {
@@ -227,8 +240,9 @@ Page {
                     icon.color: Material.color(Material.Teal, Material.Shade800)
                     onClicked: {
                         /// new outgoing message here
-                        if(textArea.text !== ""){
-                            ChatHandler.newOutgoingTextMessageChatHandler(textArea.text);
+                        var inputText = textArea.text.trim();
+                        if(inputText !== ""){
+                            ChatHandler.newOutgoingTextMessageChatHandler(inputText);
                             chatListView.update();
                             textArea.clear();
                         }
@@ -248,6 +262,10 @@ Page {
                     icon.width: height
                     icon.height: height
                     icon.color: Material.color(Material.Teal, Material.Shade800)
+                    onClicked: {
+                        appCpp.getAttachedFile();
+
+                    }
                 }
             }
         }
@@ -263,6 +281,16 @@ Page {
             }
         }
     }
+//    FileDialog{
+//        id: fileDialog
+//        folder: shortcuts.home
+
+//        onAccepted: {
+//            //handle file input here
+
+//        }
+//        title: "Choose a file"
+//    }
 }
 
 

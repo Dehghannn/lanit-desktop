@@ -11,10 +11,10 @@ Window {
     height: 600
     minimumHeight: 600
     minimumWidth: 800
-    onHeightChanged:  {
-    console.log("height is " + window.height);
-        console.log("width is " + window.width);
-    }
+//    onHeightChanged:  {
+//    console.log("height is " + window.height);
+//        console.log("width is " + window.width);
+//    }
     title: qsTr("Lanit")
 
     SystemTrayIcon{
@@ -35,12 +35,14 @@ Window {
 
         initialItem:  LoginPage{
             id: loginPage
+            anchors.fill: parent
             onLoginButtonPressed: {
                 stackView.push(mainPage);
             }
         }
         MainPage{
             id: mainPage
+            anchors.fill: parent
 
         }
 

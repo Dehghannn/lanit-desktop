@@ -5,8 +5,7 @@ FileTransferHandler::FileTransferHandler(QObject *parent) : QObject(parent)
 
 }
 
-void FileTransferHandler::sendFile(QString PathToFile, User user)
+void FileTransferHandler::newOutgoingFile(QString fileName)
 {
-    QFile *sendingFile = new QFile(PathToFile);
-    sendingFile->open(QIODevice::ReadOnly);
+
 }

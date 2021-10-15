@@ -2,27 +2,26 @@
 #define FILETRANSFERHANDLER_H
 
 #include <QObject>
-#include <QTcpSocket>
 #include <QTcpServer>
-#include <QFile>
-#include <QFileInfo>
-#include <user.h>
-
+#include <QTcpSocket>
+#include "transfer.h"
+/**
+ * @brief The FileTransferHandler class handles all transfers in one place
+ */
 class FileTransferHandler : public QObject
 {
     Q_OBJECT
 public:
     explicit FileTransferHandler(QObject *parent = nullptr);
-    void sendFile(QString PathToFile, User user);
+
+public slots:
+    void newOutgoingFile(QString fileName);
 
 signals:
-    void fileSendingProgress(int sentBytes, QHostAddress targetAddress);
-
 private:
-    QHash<QHostAddress, QFile*> filesSending;
-    QHash<QHostAddress, QFile*> filesReceiving;
+
+
 
 };
-
 
 #endif // FILETRANSFERHANDLER_H

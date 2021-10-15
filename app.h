@@ -2,6 +2,8 @@
 #define APP_H
 
 #include <QObject>
+#include <QFileDialog>
+#include <QStandardPaths>
 #include "udpbroadcaster.h"
 #include "user.h"
 
@@ -17,12 +19,14 @@ public:
     void setNickName(const QString &nickName);
     QList<User*> userList();
     Q_INVOKABLE QString getNickNamebyIP(QString ip);
+    Q_INVOKABLE void getAttachedFile();
 public slots:
     void startUDPservice();
     void newDatagramReceived(QNetworkDatagram datagram);
 signals:
     void nickNameChanged(QString nickname);
     void userListChanged();
+    void newOutgoingFile(QString fileName);
 private:
     QString m_nickName;
     QList<User*> m_usersList; /// list of users available
@@ -32,6 +36,7 @@ private:
      * @return -1 if not found else the index in userslist
      */
     int getUserIndex(User &user);
+    QFileDialog fileDialog; ///used this object to get file names to transfer
 };
 
 #endif // APP_H

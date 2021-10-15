@@ -23,7 +23,7 @@ Item {
         contentItem: Rectangle{
             id : bgRect
             //color: "#00000000"
-            color: userDelegate.highlighted? "#004D40" : "#E0F2F1"
+            color: userDelegate.highlighted? "#4db6ac" : "#E0F2F1"
             z:  userDelegate.highlighted? 2 : -1
             clip: true
             anchors.fill: parent
@@ -33,7 +33,7 @@ Item {
                 elide: Text.ElideRight
                 id: text
                 text: userDelegate.text
-                color: userDelegate.highlighted? "white" : "black"
+                color: "black"//userDelegate.highlighted? "white" : "black"
                 font.pointSize: 11
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft

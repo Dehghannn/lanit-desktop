@@ -25,6 +25,7 @@ SOURCES += \
     message.cpp \
     tcpserver.cpp \
     tcpservice.cpp \
+    transfer.cpp \
     udpbroadcaster.cpp \
     udplistener.cpp \
     user.cpp
@@ -38,6 +39,7 @@ HEADERS += \
     message.h \
     tcpserver.h \
     tcpservice.h \
+    transfer.h \
     udpbroadcaster.h \
     udplistener.h \
     user.h
