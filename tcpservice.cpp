@@ -91,7 +91,8 @@ void TCPservice::disConnected()
     QString Address = socket->peerAddress().toString();
     qDebug() << Address << " disconnected";
     emit connectionStateChanged(Address, ChatListModel::Disconnected);
-
+    socketList.removeAt(socketList.indexOf(socket)); /// remove socket from the connected sockets list
+    socket->deleteLater();
 }
 
 QTcpSocket* TCPservice::getSocketByIP(QString ip)
