@@ -60,6 +60,7 @@ Item {
                 text: timeStamp
                 font.pointSize: 8
                 Layout.alignment: Qt.AlignBottom | Qt.AlignRight
+                Layout.rightMargin: 3
 
 
             }

@@ -1,19 +1,52 @@
 #include "transfer.h"
 quint16 Transfer::transferCount = 0;
-Transfer::Transfer(QTcpSocket* socket, QString fileName)
+Transfer::Transfer(qintptr handle, QString fileName)
+{
+
+    this->handle = handle;
+    this->fileName = fileName;
+    setStatus(NotStarted);
+    Receive = true;
+}
+
+Transfer::Transfer(QString Address, QString fileName)
 {
     transferCount++;
     m_transferID = transferCount;
-    this->socket = socket;
     this->fileName = fileName;
     setStatus(NotStarted);
-    m_destIP = socket->peerAddress().toString();
+    m_destIP = Address;
+    Receive = false;
+
 }
 
 void Transfer::run()
 {
     ///implement the multithreaded write function here
-    /// big issue: you can write to a socket from only the thread it lives in
+    QTcpSocket *socket = new QTcpSocket(nullptr);
+    if(Receive){
+        socket->setSocketDescriptor(handle);
+    }else{
+
+        QFile *file = new QFile(fileName);
+        file->open(QIODevice::ReadOnly);
+        QByteArray buffer;
+        fileSize = file->size();
+        qInfo() << "Sending file " << fileName;
+        qInfo() << "by size of " << fileSize;
+        numberOfWrites = fileSize / stepSize;
+        numberOfWrites += (fileSize % stepSize != 0); // rounding to next integer
+        setStatus(Pending);
+
+        for(int i = 0; i < numberOfWrites; i++){
+
+        }
+
+
+    }
+
+
+
 }
 
 QString Transfer::getDestIP()

@@ -12,7 +12,8 @@
 class Transfer : public QRunnable
 {
 public:
-    Transfer(QTcpSocket* socket, QString fileName);
+    Transfer(qintptr handle, QString fileName); /// this constructs a receive transfer
+    Transfer(QString Address, QString fileName); /// this constructs a send transfer
 
     void run();
 
@@ -33,16 +34,23 @@ public:
 
 
 private:
+    bool Receive;
+    qintptr handle;
     static quint16 transferCount;
     quint16 m_transferID;
-    QTcpSocket* socket;
     quint8 m_status = NotStarted;
     QString m_destIP;
     QString fileName;
-    QFile file;
+    QFile *file;
     QByteArray fileBuffer;
     //quint64 BytesWritten; dont need bytes written for now
     quint8 m_completionPercent;
+
+    //file transfer variables
+    int stepSize = 5000; /// 5 KBytes for each write
+    int numberOfWrites;
+    quint32 bytesWritten;
+    qint64 fileSize;
 
     void setCompletionPercent(quint8 newCompletionPercent);
 
