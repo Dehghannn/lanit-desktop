@@ -59,13 +59,13 @@ void ChatHandler::startNewChat(QString userIP)
 
     }else{
         qDebug() << "creating a new user and chat";
-        ChatListModel *newChatList = new ChatListModel;
+        ChatListModel *newChatList = new ChatListModel(this);
         newChatList->setUserIP(user->userIP());
         userChatMap.insert(*user, newChatList);
         setActiveChat(newChatList);
         emit newChatStarted(userIP);
     }
-
+    delete user; //check later
 }
 
 void ChatHandler::newOutgoingTextMessageChatHandler(QString text)

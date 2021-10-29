@@ -1,6 +1,6 @@
 #include "chatlistmodel.h"
 #include <QDebug>
-ChatListModel::ChatListModel()
+ChatListModel::ChatListModel(QObject* parent): QAbstractListModel(parent)
 {
     /// declaring roleNames
     names[MessageRole] = "message";

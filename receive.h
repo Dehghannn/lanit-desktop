@@ -20,18 +20,18 @@ public:
     void run() override;
 
     QString getDestIP();
-    void startTransfer();
-    enum{
-        NotStarted,
-        Pending,
-        Sending,
-        Finished,
-        Failed
-    };
+//    void startTransfer();
+//    enum{
+//        NotStarted,
+//        Pending,
+//        Sending,
+//        Finished,
+//        Failed
+//    };
 
 
-    quint8 status() const;
-    void setStatus(quint8 newStatus);
+    //quint8 status() const;
+    //void setStatus(quint8 newStatus);
 
     quint8 completionPercent() const;
 public slots:

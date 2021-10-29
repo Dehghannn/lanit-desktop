@@ -9,7 +9,7 @@ class ChatListModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    ChatListModel();
+    ChatListModel(QObject* parent = nullptr);
     Q_PROPERTY(QString connectionState READ connectionState WRITE setConnectionState NOTIFY connectionStateChanged)
     // QAbstractItemModel interface
 public:

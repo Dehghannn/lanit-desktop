@@ -21,7 +21,7 @@ public:
 
     QString getDestIP();
     void startTransfer();
-    enum{
+    enum State: unsigned char{
         NotStarted,
         Pending,
         Sending,
@@ -30,8 +30,8 @@ public:
     };
 
 
-    quint8 status() const;
-    void setStatus(quint8 newStatus);
+    State status() const;
+    void setStatus(State newStatus);
 
     quint8 completionPercent() const;
 public slots:
@@ -39,7 +39,7 @@ public slots:
 
 signals:
     void progressUpdated(qint64 bytesWritten);
-    void statusChanged(qint8 status);
+    void statusChanged(State status);
 
 // these private members will be accessed directly in run only
 private:
@@ -62,7 +62,7 @@ protected:
     qint64 fileSize;
     int stepSize = 5000; /// 5 KBytes for each write
     quint8 m_completionPercent; /// @todo calculate this and signal out periodically
-    quint8 m_status = NotStarted;
+    State m_status = NotStarted;
 
 };
 

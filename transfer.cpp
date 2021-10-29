@@ -77,12 +77,12 @@ QString Transfer::getDestIP()
     return m_destIP;
 }
 
-quint8 Transfer::status() const
+Transfer::State Transfer::status() const
 {
     return m_status;
 }
 
-void Transfer::setStatus(quint8 newStatus)
+void Transfer::setStatus(State newStatus)
 {
     m_status = newStatus;
     emit statusChanged(newStatus);

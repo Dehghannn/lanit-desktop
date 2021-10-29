@@ -26,3 +26,19 @@ void Receive::run()
 
 }
 
+QString Receive::getDestIP()
+{
+    return m_destIP;
+
+}
+
+quint8 Receive::completionPercent() const
+{
+
+}
+
+void Receive::setCompletionPercent(quint8 newCompletionPercent)
+{
+
+}
+

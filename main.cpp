@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     App application;
+    ChatHandler chathandle;
 
     qRegisterMetaType<Message>();
 
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("appCpp", &application);
 
 
-    ChatHandler chathandle;
+
     engine.rootContext()->setContextProperty("ChatHandler", &chathandle);// QVariant::fromValue(application.usersList)
 
     engine.load(url);
