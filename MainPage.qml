@@ -16,6 +16,7 @@ Page {
             id: topBar
             width: 149
             height: 50
+            anchors.top: parent.top
             color: Material.color(Material.Teal, Material.Shade900)
             Button{
                 id: hamburgerButton

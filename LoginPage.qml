@@ -11,10 +11,10 @@ Page {
     Rectangle{
         id: rectangle
         color: "#ffffff"
-        anchors.rightMargin: 0
-        anchors.bottomMargin: 0
-        anchors.leftMargin: 0
-        anchors.topMargin: 0//"#72b1cd"
+//        anchors.rightMargin: 0
+//        anchors.bottomMargin: 0
+//        anchors.leftMargin: 0
+//        anchors.topMargin: 0//"#72b1cd"
         anchors.fill: parent
 
 

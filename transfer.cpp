@@ -27,6 +27,7 @@ void Transfer::run()
         qInfo() << "failed to connect to receiver";
         qInfo() << socket->errorString();
         setStatus(Failed);
+        return;
         /// @todo retry maybe
     }
     DataPacket packet;
@@ -42,6 +43,10 @@ void Transfer::run()
         QByteArray answer = socket->readAll();
         DataPacket responsePacket;
         responsePacket.extractPacket(answer);
+        if(!responsePacket.isYes()){ // file was rejected
+            setStatus(Failed);
+            return;
+        }
         /// @todo check if response is yes or no
     }
 
@@ -50,6 +55,8 @@ void Transfer::run()
     file->open(QIODevice::ReadOnly);
     QByteArray *buffer = new QByteArray;
     DataPacket sendPacket;
+
+    setStatus(Transfering);
     for(int i = 0; i < numberOfWrites; i++){
         ///@todo send each part of file and update progress
         if(fileSize - bytesWritten > stepSize){ // check if remaining bytes are larger than a step
@@ -58,7 +65,7 @@ void Transfer::run()
             *buffer = file->read((fileSize - bytesWritten));
         }
 
-        sendPacket.setFromFileData(*buffer);
+        sendPacket.setFromFileData(*buffer, transferCount); /// @todo change transferCode
         socket->write(sendPacket.Data());
         bytesWritten += buffer->size();
         emit progressUpdated(bytesWritten);

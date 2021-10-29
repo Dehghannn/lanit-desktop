@@ -18,12 +18,14 @@ void FileTransferHandler::quit()
     this->close();
 }
 
-void FileTransferHandler::newOutgoingFile(QString fileName)
+void FileTransferHandler::newOutgoingFile(QString address, QString fileName)
 {
-
+    Transfer *transferer = new Transfer(address, fileName, this);
+    pool.start(transferer);
 }
 
 void FileTransferHandler::incomingConnection(qintptr handle)
 {
-
+    Receive *receiver = new Receive(handle, this);
+    pool.start(receiver);
 }

@@ -6,6 +6,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include "transfer.h"
+#include "receive.h"
 /**
  * @brief The FileTransferHandler class handles all transfers in one place
  */
@@ -18,7 +19,7 @@ public:
     void quit();
 
 public slots:
-    void newOutgoingFile(QString fileName);
+    void newOutgoingFile(QString address, QString fileName);
 
 signals:
 private:

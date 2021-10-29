@@ -24,7 +24,7 @@ public:
     enum State: unsigned char{
         NotStarted,
         Pending,
-        Sending,
+        Transfering,
         Finished,
         Failed
     };

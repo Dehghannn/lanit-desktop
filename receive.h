@@ -16,7 +16,7 @@ class Receive : public Transfer
 {
     Q_OBJECT
 public:
-    Receive(qintptr handle, QString fileName, QObject *parent = nullptr); /// this constructs a receive transfer
+    Receive(qintptr handle, QObject *parent = nullptr); /// this constructs a receive transfer
     void run() override;
 
     QString getDestIP();
@@ -24,7 +24,7 @@ public:
 //    enum{
 //        NotStarted,
 //        Pending,
-//        Sending,
+//        Transfering,
 //        Finished,
 //        Failed
 //    };
@@ -37,10 +37,11 @@ public:
 public slots:
 
 
-/* signals:
-    void progressUpdated(qint64 bytesWritten);
+ signals:
+    void progressUpdated(qint64 bytesRead);
+    void newFileRequest(QString FileName, qint64 fileSize);
     void statusChanged(qint8 status);
-*/
+
 // these private members will be accessed directly in run only
 private:
     int port = 8891;
@@ -51,10 +52,15 @@ private:
     //file receive variables
     QString m_destIP;
     int numberOfReads;
-    qint64 bytesRead;
-
-
+    qint64 bytesRead = 0;
+    QFile *file;
     void setCompletionPercent(quint8 newCompletionPercent);
+    /**
+     * @brief waitForAnswer
+     * this functions waits for the user to say yes or no to a file transfer request
+     * @return will return true if the user says yes and false if no answer
+     */
+    bool waitForAnswer();
 protected:
 /* protected members of the parent class
     QString fileName;
