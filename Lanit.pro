@@ -23,6 +23,7 @@ SOURCES += \
     filetransferhandler.cpp \
     main.cpp \
     message.cpp \
+    receive.cpp \
     tcpserver.cpp \
     tcpservice.cpp \
     transfer.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     datapacket.h \
     filetransferhandler.h \
     message.h \
+    receive.h \
     tcpserver.h \
     tcpservice.h \
     transfer.h \

@@ -1,5 +1,5 @@
-#ifndef TRANSFER_H
-#define TRANSFER_H
+#ifndef RECEIVE_H
+#define RECEIVE_H
 
 #include <QObject>
 #include <QRunnable>
@@ -8,16 +8,16 @@
 #include <QFile>
 #include <QFileInfo>
 #include "datapacket.h"
+#include "transfer.h"
 ///
 /// \brief The Transfer class handles all the functionality related to a single transfer
 ///
-class Transfer : public QObject, public QRunnable
+class Receive : public Transfer
 {
     Q_OBJECT
 public:
-    Transfer(QObject *parent = nullptr):QObject(parent){};
-    Transfer(QString Address, QString fileName, QObject *parent = nullptr); /// this constructs a send transfer
-    void run();
+    Receive(qintptr handle, QString fileName, QObject *parent = nullptr); /// this constructs a receive transfer
+    void run() override;
 
     QString getDestIP();
     void startTransfer();
@@ -37,34 +37,34 @@ public:
 public slots:
 
 
-signals:
+/* signals:
     void progressUpdated(qint64 bytesWritten);
     void statusChanged(qint8 status);
-
+*/
 // these private members will be accessed directly in run only
 private:
     int port = 8891;
-    static quint16 transferCount;
+    qintptr handle;
     quint16 m_transferID; /// @todo use a transfer id to identify connections
 
 
-    //file transfer variables
+    //file receive variables
     QString m_destIP;
-    int numberOfWrites;
-    qint64 bytesWritten;
+    int numberOfReads;
+    qint64 bytesRead;
 
 
     void setCompletionPercent(quint8 newCompletionPercent);
 protected:
-
+/* protected members of the parent class
     QString fileName;
     QFile *file;
     qint64 fileSize;
     int stepSize = 5000; /// 5 KBytes for each write
     quint8 m_completionPercent; /// @todo calculate this and signal out periodically
     quint8 m_status = NotStarted;
-
+*/
 };
 
 
-#endif // TRANSFER_H
+#endif // RECEIVE_H

@@ -59,7 +59,7 @@ void ChatHandler::startNewChat(QString userIP)
 
     }else{
         qDebug() << "creating a new user and chat";
-        ChatListModel *newChatList = new ChatListModel; QAbstractItemModelTester(newChatList, QAbstractItemModelTester::FailureReportingMode::Fatal, this);
+        ChatListModel *newChatList = new ChatListModel;
         newChatList->setUserIP(user->userIP());
         userChatMap.insert(*user, newChatList);
         setActiveChat(newChatList);

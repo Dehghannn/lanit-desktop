@@ -27,23 +27,39 @@ void DataPacket::setType(qint8 newType)
 
 void DataPacket::setFromMessage(const Message &message)
 {
+    data.clear();
     QByteArray messageText = message.text().toUtf8(); /// need to be in UTF8
     setType(DataPacket::TextMessage);
     setContentSize(messageText.size());
-//    QByteArray size(2);
-    char c[2];
-    c[1] = (m_contentSize & 0xff);
-    c[0] = (m_contentSize >> 8);
-    data.append(c, 2);
+    QByteArray sizeArray = int16toArray(m_contentSize);
+    data.append(sizeArray);
     data.append(m_type);
     data.append(messageText);
     qDebug() << data;
     qDebug() << data.size();
 }
 
-void DataPacket::setFromFile(const QFile &file)
+void DataPacket::setFromFileData(const QByteArray &fileData)
 {
+    data.clear();
+    setType(File);
+    setContentSize(fileData.size());
+    data.append(int16toArray(m_contentSize));
+    data.append(m_type);
+    data.append(fileData);
+}
 
+void DataPacket::setFileRequest(QString FileName, qint64 fileSize)
+{
+    data.clear();
+    setType(FileRequest);
+    qint16 fileNameSize = FileName.toUtf8().size();
+    setContentSize(sizeof (qint16) + fileNameSize + sizeof(qint64));
+    data.append(m_contentSize);
+    data.append(m_type);
+    data.append(int16toArray(fileNameSize));
+    data.append(FileName.toUtf8());
+    data.append(int64toArray(fileSize));
 }
 
 void DataPacket::setAcceptedResponse()
@@ -69,30 +85,32 @@ void DataPacket::fromData(QByteArray data)
     setContentSize(size.toInt());
     this->data = data.mid(3); /// @todo change this so that the size specified is picked
 }
-///
-/// \brief DataPacket::extractPacket
-/// this function gets an array of bytes and scans the left part of it for a packet
-/// \param array is the input data read from tcp socket
-/// \return true if a packet is found inside the array. the array is truncated without the packet
-///
+
+
 bool DataPacket::extractPacket(QByteArray &array)
 {
     if(array.size() < headerSize)
         return false;
     qDebug() <<"read a packet";
-    QByteArray size = array.left(2);
-    qint16 size_int_byte = static_cast<qint16>(size.data()[0]);
-    qint16 size_int = size_int_byte << 8;
-    size_int = size_int + static_cast<qint16>(size.data()[1]);
-    qDebug() << "packet size is " << size_int;
+    QByteArray size_array = array.left(2);
+    quint16 size_int = arrayToUint(size_array);
     setContentSize(size_int);
     setType(array.at(2)); ///@todo handle different types here
     if(array.size() < headerSize + m_contentSize)
         return false;
     switch (m_type) {
+
+
         case TextMessage:
-            data = array.left(3 + m_contentSize);
+            data = array.left(headerSize + m_contentSize);
             qDebug() << "packet content is: " << data.mid(headerSize);
+
+
+    case File:
+        this->m_transferCode = arrayToUint(array.mid(headerSize, 2));
+        data = array.left(headerSize + m_contentSize + sizeof(quint16));
+
+
     }
     if(m_contentSize + headerSize <= array.size()){ /// incomming data is bigger than the first packet
         array = array.mid(headerSize + m_contentSize);
@@ -103,5 +121,52 @@ bool DataPacket::extractPacket(QByteArray &array)
 
 QByteArray DataPacket::getContent()
 {
-    return data.mid(3);
+    switch (m_type) {
+        case TextMessage:
+            return data.mid(headerSize);
+        case File:
+            return data.mid(headerSize + sizeof (quint16));
+    default:
+            return data;
+    }
+}
+
+QByteArray DataPacket::int16toArray(const qint16 &input)
+{
+    char c[2];
+    c[1] = (input & 0xff);
+    c[0] = (input >> 8);
+    QByteArray output;
+    output.append(c, 2);
+    return output;
+}
+
+QByteArray DataPacket::int16toArray(const quint16 &input)
+{
+    char c[2];
+    c[1] = (input & 0xff);
+    c[0] = (input >> 8);
+    QByteArray output;
+    output.append(c, 2);
+    return output;
+}
+
+quint16 DataPacket::arrayToUint(const QByteArray &input)
+{
+    quint16 output = static_cast<qint16>(input.data()[0]);
+     output <<= 8;
+    output +=  static_cast<qint16>(input.data()[1]);
+    return output;
+}
+
+QByteArray DataPacket::int64toArray(const qint64 &input)
+{
+    char c[4];
+    c[3] = (input & 0xff);
+    c[2] = (input >> 8);
+    c[1] = (input >> 8);
+    c[0] = (input >> 8);
+    QByteArray output;
+    output.append(c, 4);
+    return output;
 }

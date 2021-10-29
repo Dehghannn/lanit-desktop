@@ -5,7 +5,6 @@
 #include "tcpservice.h"
 #include "chatlistmodel.h"
 #include <QThread>
-#include <QAbstractItemModelTester>
 
 
 /**
