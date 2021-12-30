@@ -6,6 +6,7 @@
 #include <QList>
 #include "FileTransferCore/message.h"
 #include "FileTransferCore/filemessage.h"
+#include "filelistmodel.h"
 class ChatListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -41,6 +42,7 @@ public:
 
     const QString &connectionState() const;
     void setConnectionState(const QString &newConnectionState);
+    FileListModel fileListModel;
 
 signals:
     void connectionStateChanged();
@@ -50,6 +52,7 @@ private:
     QString userIP; /// IP of the other person in the chat
     QHash<int, QByteArray> names; /// hash map used for roleNames
     QString m_connectionState;
+
 
 
 

@@ -25,6 +25,7 @@ SOURCES += \
     app.cpp \
     chathandler.cpp \
     chatlistmodel.cpp \
+    filelistmodel.cpp \
     main.cpp \
     tcpserver.cpp \
     tcpservice.cpp \
@@ -42,6 +43,7 @@ HEADERS += \
     app.h \
     chathandler.h \
     chatlistmodel.h \
+    filelistmodel.h \
     tcpserver.h \
     tcpservice.h \
     udpbroadcaster.h \

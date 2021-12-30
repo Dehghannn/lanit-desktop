@@ -177,9 +177,9 @@ Page {
 
             }
 
-            Rectangle {
-                property int maxHeight: 200
+            Rectangle {        
                 id: typeArea
+                property int maxHeight: 200
                 width: parent.width
                 y: parent.height - height
                 height: textArea.height

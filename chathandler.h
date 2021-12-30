@@ -5,6 +5,7 @@
 #include "tcpservice.h"
 #include "chatlistmodel.h"
 #include <QThread>
+#include "FileTransferCore/filetransferhandler.h"
 
 
 /**
@@ -29,6 +30,7 @@ public slots:
     void newIncomingTextMessage(Message message);
     void connectionStateChangedSlot(QString Address, int state);
     void incommingConnection(QString Address);
+    void onNewOutgoingFile(QString fileName);
 signals:
     void activeChatChanged();
     void noActiveChatChanged();
@@ -44,6 +46,7 @@ private:
     ChatListModel *emptyChat;
     QThread *serverThread;
     void setConnectionState(ChatListModel* chat, int state);
+    FileTransferHandler fileTransferHandler;
 };
 
 #endif // CHATHANDLER_H

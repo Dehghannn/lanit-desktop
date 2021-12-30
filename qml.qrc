@@ -14,5 +14,7 @@
         <file>icons/sendIcon.png</file>
         <file>icons/icons8-l-100.png</file>
         <file>icons/menu.png</file>
+        <file>FileList.qml</file>
+        <file>FileItemDelegate.qml</file>
     </qresource>
 </RCC>

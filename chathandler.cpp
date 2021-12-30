@@ -46,6 +46,7 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     activeChat()->addMessage(*message);
     activeChat()->addMessage(*message);
     activeChat()->addMessage(*message);
+    fileTransferHandler.start();
 }
 
 void ChatHandler::startNewChat(QString userIP)
@@ -155,6 +156,16 @@ void ChatHandler::incommingConnection(QString Address)
         userChatMap.insert(*user, chatListModel);
         setConnectionState(chatListModel, ChatListModel::Connected);
     }
+
+}
+
+void ChatHandler::onNewOutgoingFile(QString fileName)
+{
+    FileMessage *fileMessage = new FileMessage(fileName); //FileListModel will be responsible for this object
+    fileMessage->setIsOwn(true);
+    fileTransferHandler.newOutgoingFile(activeChat()->getUserIP(), fileName, fileMessage);
+    ///@todo add the file message to the file list model object
+    activeChat()->fileListModel.addFileMessage(fileMessage);
 
 }
 
