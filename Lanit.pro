@@ -16,6 +16,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    FileTransferCore/datapacket.cpp \
+    FileTransferCore/filemessage.cpp \
+    FileTransferCore/filetransferhandler.cpp \
+    FileTransferCore/message.cpp \
+    FileTransferCore/receive.cpp \
+    FileTransferCore/transfer.cpp \
     app.cpp \
     chathandler.cpp \
     chatlistmodel.cpp \
@@ -27,6 +33,12 @@ SOURCES += \
     user.cpp
 
 HEADERS += \
+    FileTransferCore/datapacket.h \
+    FileTransferCore/filemessage.h \
+    FileTransferCore/filetransferhandler.h \
+    FileTransferCore/message.h \
+    FileTransferCore/receive.h \
+    FileTransferCore/transfer.h \
     app.h \
     chathandler.h \
     chatlistmodel.h \
