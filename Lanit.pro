@@ -19,15 +19,9 @@ SOURCES += \
     app.cpp \
     chathandler.cpp \
     chatlistmodel.cpp \
-    datapacket.cpp \
-    filemessage.cpp \
-    filetransferhandler.cpp \
     main.cpp \
-    message.cpp \
-    receive.cpp \
     tcpserver.cpp \
     tcpservice.cpp \
-    transfer.cpp \
     udpbroadcaster.cpp \
     udplistener.cpp \
     user.cpp
@@ -36,14 +30,8 @@ HEADERS += \
     app.h \
     chathandler.h \
     chatlistmodel.h \
-    datapacket.h \
-    filemessage.h \
-    filetransferhandler.h \
-    message.h \
-    receive.h \
     tcpserver.h \
     tcpservice.h \
-    transfer.h \
     udpbroadcaster.h \
     udplistener.h \
     user.h

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
-#include "datapacket.h"
+#include "FileTransferCore/datapacket.h"
 
 class TcpServer : public QObject
 {

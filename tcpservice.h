@@ -4,10 +4,10 @@
 #include <QObject>
 #include <QNetworkProxy>
 #include "tcpserver.h"
-#include "message.h"
+#include "FileTransferCore/message.h"
 #include "user.h"
 #include "chatlistmodel.h"
-#include "datapacket.h"
+#include "FileTransferCore/datapacket.h"
 
 class TCPservice : public QObject
 {

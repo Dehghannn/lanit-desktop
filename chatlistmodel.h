@@ -4,7 +4,7 @@
 #include <QAbstractListModel>
 
 #include <QList>
-#include "message.h"
+#include "FileTransferCore/message.h"
 class ChatListModel : public QAbstractListModel
 {
     Q_OBJECT
