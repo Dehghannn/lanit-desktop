@@ -1,0 +1,31 @@
+#ifndef FILELISTMODEL_H
+#define FILELISTMODEL_H
+
+#include <QObject>
+#include <QAbstractListModel>
+#include "FileTransferCore/filemessage.h"
+
+class FileListModel : public QAbstractListModel
+{
+    Q_OBJECT
+public:
+    explicit FileListModel(QObject *parent = nullptr);
+    enum roleNamesEnum{
+        Progress,
+        FileName,
+        FileSize,
+        isOwn
+    };
+    // QAbstractItemModel interface
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QHash<int, QByteArray> roleNames() const;
+    void addFileMessage(FileMessage *fileMessage);
+public slots:
+    void onProgressUpdated(int index, int progress); /// @todo dont need progress number here
+private:
+    QList<FileMessage*> fileList;
+    QHash<int, QByteArray> roles;
+};
+
+#endif // FILELISTMODEL_H
