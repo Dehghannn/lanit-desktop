@@ -21,8 +21,8 @@ Item {
                 isOwn: model.isOwn
                 progress: model.Progress
             }
+            model: ChatHandler.activeFileList
         }
     }
-
 
 }

@@ -5,6 +5,7 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     numberOfChats = 0;
     m_noActiveChat = true;
     emptyChat = new ChatListModel;
+    emptyFileList = new FileListModel;
     networkService = new TCPservice;
     serverThread = new QThread;
     networkService->moveToThread(serverThread);
@@ -47,6 +48,14 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     activeChat()->addMessage(*message);
     activeChat()->addMessage(*message);
     fileTransferHandler.start();
+}
+
+FileListModel *ChatHandler::activeFileList() const
+{
+    if(!m_noActiveChat){
+        return m_activeFileListptr;
+    }
+    return emptyFileList;
 }
 
 void ChatHandler::startNewChat(QString userIP)
@@ -128,7 +137,9 @@ ChatListModel* ChatHandler::activeChat() const
 void ChatHandler::setActiveChat(ChatListModel *activeChat)
 {
     m_activeChatptr = activeChat;
+    m_activeFileListptr = &m_activeChatptr->fileListModel;
     emit activeChatChanged();
+    emit activeFileListChanged();
     qDebug() << "active chat user is " << activeChat->getUserIP();
 }
 void ChatHandler::connectionStateChangedSlot(QString Address, int state)

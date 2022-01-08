@@ -15,9 +15,11 @@ class ChatHandler : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(ChatListModel* activeChat READ activeChat WRITE setActiveChat NOTIFY activeChatChanged)
+    Q_PROPERTY(FileListModel* activeFileList READ activeFileList NOTIFY activeFileListChanged)
     Q_PROPERTY(bool noActiveChat READ noActiveChat WRITE setNoActiveChat NOTIFY noActiveChatChanged)
 public:
     explicit ChatHandler(QObject *parent = nullptr);
+    FileListModel* activeFileList() const;
     ChatListModel* activeChat() const;
     void setActiveChat(ChatListModel *activeChat);
 
@@ -37,13 +39,16 @@ signals:
     void newChatStarted(QString userIP);
     void newOutgoingTextMessage(Message message);
     void newMessageNotification(QString ip, QString messageText);
+    void activeFileListChanged();
 private:
     TCPservice *networkService;
     QHash<User, ChatListModel*> userChatMap;
     ChatListModel *m_activeChatptr;
+    FileListModel *m_activeFileListptr;
     int numberOfChats;
     bool m_noActiveChat;
     ChatListModel *emptyChat;
+    FileListModel *emptyFileList;
     QThread *serverThread;
     void setConnectionState(ChatListModel* chat, int state);
     FileTransferHandler fileTransferHandler;
