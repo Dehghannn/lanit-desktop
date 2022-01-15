@@ -3,6 +3,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Material 2.3
 import QtPositioning 5.14
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.12
 
 Page {
     id: loginPage
@@ -143,41 +144,94 @@ Page {
                 height: parent.height - typeArea.height - chatTopBar.height
                 y: chatTopBar.height
                 color: "#c8dcdb"
-                ScrollView{
-                    id: scrollView
-                    contentWidth: -1
-                    anchors.fill: parent
-
-                    ListView{
-                        id: chatListView
-                        width: scrollView.width
-                        height: scrollView.height
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.topMargin: 4
-                        anchors.bottomMargin: 3
-                        clip: true
-                        spacing: 10
-                        model: ChatHandler.activeChat
-                        //flickableDirection: Flickable.AutoFlickIfNeeded
-                        delegate: MessageDelegate{
-                            width: chatListView.width
-                            text: message
-                            isOwn: ownership
-                            timeStamp: time                                                  
+                TabBar{
+                    id: tabBar
+                    width: parent.width
+                    anchors.top: parent.top
+                    height: 40
+                    z: 2
+                    TabButton{
+                        id: filesTabButton
+                        onClicked: stackLayout.currentIndex = 0                        
+                        contentItem: Text {
+                            anchors.fill: parent
+                            id: tabButton1Text
+                            text: qsTr("Files")
+                            font.pointSize: 8
+                            color: "black"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
                         }
-                        onContentHeightChanged: positionViewAtEnd();
-                        onModelChanged: positionViewAtEnd();
-                        Component.onCompleted: positionViewAtEnd();
                     }
-                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                    //ScrollBar.horizontal.snapMode: ScrollBar.SnapOnRelease
+                    TabButton{
+                        id: chatTabButton
+                        contentItem: Text {
+                            anchors.fill: parent
+                            id: tabButton2Text
+                            text: qsTr("Chat")
+                            font.pointSize: 8
+                            color: "black"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        onClicked: stackLayout.currentIndex = 1
+                    }
+                }
+                StackLayout{
+                    id: stackLayout
+                    width: parent.width
+                    height: parent.height - tabBar.height
+                    anchors.top: tabBar.bottom
+                    currentIndex: 0
+                    ScrollView{
+                        id: fileScrollView
+                        contentWidth: -1
+                        anchors.fill: parent
+
+                        FileList{
+                            anchors.fill: parent
+
+
+                        }
+                        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        //ScrollBar.horizontal.snapMode: ScrollBar.SnapOnRelease
+                    }
+                    ScrollView{
+                        id: scrollView
+                        contentWidth: -1
+                        anchors.fill: parent
+
+                        ListView{
+                            id: chatListView
+                            width: scrollView.width
+                            height: scrollView.height
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.topMargin: 4
+                            anchors.bottomMargin: 3
+                            clip: true
+                            spacing: 10
+                            model: ChatHandler.activeChat
+                            //flickableDirection: Flickable.AutoFlickIfNeeded
+                            delegate: MessageDelegate{
+                                width: chatListView.width
+                                text: message
+                                isOwn: ownership
+                                timeStamp: time
+                            }
+                            onContentHeightChanged: positionViewAtEnd();
+                            onModelChanged: positionViewAtEnd();
+                            Component.onCompleted: positionViewAtEnd();
+                        }
+                        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        //ScrollBar.horizontal.snapMode: ScrollBar.SnapOnRelease
+                    }
                 }
 
 
             }
 
-            Rectangle {        
+            Rectangle {
                 id: typeArea
                 property int maxHeight: 200
                 width: parent.width
@@ -219,7 +273,7 @@ Page {
                 }
 
                 RoundButton {
-                    id: sendButton                    
+                    id: sendButton
                     x: parent.width - width
                     y: 0
                     enabled: {
@@ -282,16 +336,16 @@ Page {
             }
         }
     }
-//    FileDialog{
-//        id: fileDialog
-//        folder: shortcuts.home
+    //    FileDialog{
+    //        id: fileDialog
+    //        folder: shortcuts.home
 
-//        onAccepted: {
-//            //handle file input here
+    //        onAccepted: {
+    //            //handle file input here
 
-//        }
-//        title: "Choose a file"
-//    }
+    //        }
+    //        title: "Choose a file"
+    //    }
 }
 
 

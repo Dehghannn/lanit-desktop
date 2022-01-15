@@ -10,6 +10,7 @@ Item {
     Rectangle{
         id: backGround
         anchors.fill: parent
+        color: "#00000000"
         ListView{
             id: fileListview
             anchors.fill: parent
@@ -19,7 +20,8 @@ Item {
                 fileName: model.FileName
                 fileSize: model.FileSize
                 isOwn: model.isOwn
-                progress: model.Progress
+                progress: model.Progress              
+                time: model.TimeStamp
             }
             model: ChatHandler.activeFileList
         }

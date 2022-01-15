@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     App application;
     ChatHandler chathandle;
+    QObject::connect(&application, &App::newOutgoingFile, &chathandle, &ChatHandler::onNewOutgoingFile);
 
     qRegisterMetaType<Message>();
 

@@ -9,24 +9,34 @@ Item {
     property real progress: 60
     property alias fileName: fileName.text
     property bool isOwn: true
-    property var  fileSize: 10000000
-    Rectangle{
+    property int  fileSize: 10000000
+    property string time: "12:00"
+    Pane{
         id: backGround
-        color: "#868f96"
-        anchors.fill: parent
-        gradient: Gradient {
-            GradientStop {
-                position: 0
-                color: "#e3fdf5"
-            }
+        //color: "#868f96"
+        Material.background: Material.color(Material.Teal, Material.Shade50)
+        Material.elevation: 1
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 1
+        anchors.leftMargin: 1
+        anchors.topMargin: 1
+        //gradient: Gradient {
+            //orientation: Gradient.Vertical
+            //GradientStop {
+              //  position: 0
+               // color: "#ffffff"//"#dfe9f3"
+            //}
 
-            GradientStop {
-                position: 1
-                color: "#ffe6fa"
-            }
-        }
-        border.width: 0.1
-        border.color: "#868f96"
+           // GradientStop {
+             //   position: 1
+               // color: "#c8dcdb"
+            //}
+        //}
+        //border.width: 0.1
+        //border.color: "#868f96"
         Row{
             id: textRow
             width: transferProgress.width
@@ -38,7 +48,7 @@ Item {
             Text {
                 id: fileName
                 text: qsTr("movie.mkv")
-                font.pointSize: 20
+                font.pointSize: 14
                 anchors.bottom: parent.bottom
                 verticalAlignment: Text.AlignBottom
             }
@@ -47,7 +57,7 @@ Item {
                 anchors.bottom: parent.bottom
                 text: getProperFileSize(root.fileSize)
                 color: "gray"
-                font.pointSize: 14
+                font.pointSize: 10
                 verticalAlignment: Text.AlignBottom
             }
         }
@@ -75,5 +85,4 @@ Item {
             return prettySize + " MB";
         }
     }
-
 }

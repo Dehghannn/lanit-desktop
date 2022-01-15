@@ -172,11 +172,13 @@ void ChatHandler::incommingConnection(QString Address)
 
 void ChatHandler::onNewOutgoingFile(QString fileName)
 {
+    qDebug() << "new outgoing file called with file name : " << fileName;
     FileMessage *fileMessage = new FileMessage(fileName); //FileListModel will be responsible for this object
     fileMessage->setIsOwn(true);
     fileTransferHandler.newOutgoingFile(activeChat()->getUserIP(), fileName, fileMessage);
     ///@todo add the file message to the file list model object
     activeChat()->fileListModel.addFileMessage(fileMessage);
+    connect(fileMessage, &FileMessage::progressUpdated, activeFileList(), &FileListModel::onProgressUpdated);
 
 }
 

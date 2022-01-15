@@ -6,6 +6,7 @@ FileListModel::FileListModel(QObject *parent) : QAbstractListModel(parent)
     roles[FileName] = "FileName";
     roles[FileSize] = "FileSize";
     roles[isOwn] = "isOwn";
+    roles[TimeStamp] = "TimeStamp";
 }
 
 int FileListModel::rowCount(const QModelIndex &parent) const
@@ -28,6 +29,9 @@ QVariant FileListModel::data(const QModelIndex &index, int role) const
     case isOwn:{
         return fileList.at(index.row())->isOwn();
     }
+    case TimeStamp:{
+        return fileList.at(index.row())->getTime();
+    }
     default:{
         return fileList.at(index.row())->fileName();
     }
@@ -43,9 +47,25 @@ void FileListModel::addFileMessage(FileMessage *fileMessage)
 {
     fileMessage->setIndex(fileList.size());
     fileList.append(fileMessage);
+    FileListModel::insertRows(fileList.size() -1 , 1, QModelIndex());
+}
+
+bool FileListModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    if(count > 0){
+        QAbstractItemModel::beginInsertRows(parent, row, row + count - 1);
+    }else{
+        return false;
+    }
+
+    QAbstractItemModel::endInsertRows();
+    return true;
 }
 
 void FileListModel::onProgressUpdated(int index, int progress)
 {
-    emit dataChanged(this->index(index), this->index(index + 1));
+    QModelIndex topLeft = createIndex(index, 0);
+    QModelIndex bottomRight = createIndex(index + 1, 0);
+    static QVector<int> changedRoles = {Progress};
+    emit dataChanged(topLeft, bottomRight, changedRoles);
 }
