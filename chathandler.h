@@ -33,6 +33,8 @@ public slots:
     void connectionStateChangedSlot(QString Address, int state);
     void incommingConnection(QString Address);
     void onNewOutgoingFile(QString fileName);
+    void onNewIncomingFileConnection(Receive *receiver);
+    void onNewIncomingFileRequest(QString fileName, qint64 fileSize, QString address);
 signals:
     void activeChatChanged();
     void noActiveChatChanged();
@@ -52,6 +54,7 @@ private:
     QThread *serverThread;
     void setConnectionState(ChatListModel* chat, int state);
     FileTransferHandler fileTransferHandler;
+    ChatListModel* getChatByIP(QString address);
 };
 
 #endif // CHATHANDLER_H

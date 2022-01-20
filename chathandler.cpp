@@ -17,6 +17,7 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     connect(this, &ChatHandler::newChatStarted, networkService, &TCPservice::startNewConnection);
     serverThread->start();
 
+    connect(&fileTransferHandler, &FileTransferHandler::newIncomingFile, this, &ChatHandler::onNewIncomingFileConnection);
     //test Code
     Message *message = new Message;
     message->setText("alooo");
@@ -182,6 +183,31 @@ void ChatHandler::onNewOutgoingFile(QString fileName)
 
 }
 
+void ChatHandler::onNewIncomingFileConnection(Receive *receiver)
+{
+    connect(receiver, &Receive::newFileRequest, this, &ChatHandler::onNewIncomingFileRequest);
+
+}
+
+void ChatHandler::onNewIncomingFileRequest(QString fileName, qint64 fileSize, QString address)
+{
+    FileMessage *fileMessage = new FileMessage; ///@todo FileMessage must be compatible with receiving files
+    fileMessage->setFileName(fileName);
+    fileMessage->setFileSize(fileSize);
+    fileMessage->setIsOwn(false);
+    Receive *receiver = qobject_cast<Receive*>(sender());
+    connect(receiver, &Receive::progressUpdated, fileMessage, &FileMessage::updateProgress);
+    ///@todo connect a signal from FileMessage to Receive object here for request response
+    ChatListModel* chat = getChatByIP(address);
+    if(chat != nullptr){
+        chat->fileListModel.addFileMessage(fileMessage);
+    }else{
+        startNewChat(address);
+        chat = getChatByIP(address);
+        chat->fileListModel.addFileMessage(fileMessage);
+    }
+}
+
 void ChatHandler::setConnectionState(ChatListModel *chat, int state)
 {
     switch (state) {
@@ -193,6 +219,18 @@ void ChatHandler::setConnectionState(ChatListModel *chat, int state)
         break;
     case ChatListModel::Disconnected:
         chat->setConnectionState("Disconnected");
+    }
+}
+
+ChatListModel* ChatHandler::getChatByIP(QString address)
+{
+    User user;
+    user.setUserIP(address);
+    auto iterator = userChatMap.find(user);
+    if(iterator != userChatMap.end()){
+        return iterator.value();
+    }else{
+        return nullptr;
     }
 }
 
