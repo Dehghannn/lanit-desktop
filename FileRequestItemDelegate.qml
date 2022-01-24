@@ -6,11 +6,12 @@ Item {
     id: root
     width: 800
     height: 100
-    property real progress: 60
     property alias fileName: fileName.text
     property bool isOwn: true
     property int  fileSize: 10000000
     property string time: "12:00"
+    signal accepted()
+    signal rejected()
     Pane{
         id: backGround
         //color: "#868f96"
@@ -23,34 +24,18 @@ Item {
         anchors.rightMargin: 1
         anchors.leftMargin: 1
         anchors.topMargin: 1
-        //gradient: Gradient {
-            //orientation: Gradient.Vertical
-            //GradientStop {
-              //  position: 0
-               // color: "#ffffff"//"#dfe9f3"
-            //}
-
-           // GradientStop {
-             //   position: 1
-               // color: "#c8dcdb"
-            //}
-        //}
-        //border.width: 0.1
-        //border.color: "#868f96"
-        Row{
-            id: textRow
-            width: transferProgress.width
-            height: parent.height * 3 / 5
+        Column{
+            id: iTextColumn
+            width: parent.width *2 / 3
+            height: parent.height
             anchors.top: parent.top
-            anchors.bottom: transferProgress.top
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
             spacing: 10
             Text {
                 id: fileName
                 text: qsTr("movie.mkv")
                 font.pointSize: 12
-                anchors.bottom: parent.bottom
-                verticalAlignment: Text.AlignBottom
+                verticalAlignment: Text.AlignVCenter
             }
             Text {
                 id: fileSize
@@ -58,19 +43,39 @@ Item {
                 text: getProperFileSize(root.fileSize)
                 color: "gray"
                 font.pointSize: 10
-                verticalAlignment: Text.AlignBottom
+                verticalAlignment: Text.AlignVCenter
             }
         }
-        ProgressBar{
-            id: transferProgress
-            width: parent.width - 100
-            height: parent.height *2 / 5
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            from: 0
-            to: 100
-            value: root.progress
-            visible: (value == 100)? false: true
+        Row{
+            id: iButtonRow
+            width: parent.width / 3
+            height: parent.height
+            spacing: 20
+            anchors.left: iTextColumn.right
+            leftPadding: (width - (2 *iAcceptButton.width) - spacing) / 2
+            rightPadding: leftPadding
+            Button{
+                id: iAcceptButton
+                width: (parent.width - 5 ) / 3
+                height: parent.height
+                //anchors.verticalCenter: parent.verticalCenter
+                flat: true
+                text: qsTr("Accept")
+                Material.foreground: Material.Green
+                font.pointSize: 10
+                onClicked: accepted()
+            }
+            Button{
+                id: iRejectButton
+                width: (parent.width - 5) / 3
+                height: parent.height
+                //anchors.verticalCenter: parent.verticalCenter
+                flat: true
+                text: qsTr("Reject")
+                Material.foreground: Material.Red
+                font.pointSize: 10
+                onClicked: rejected()
+            }
         }
     }
     function getProperFileSize(size){

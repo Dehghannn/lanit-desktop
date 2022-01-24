@@ -16,5 +16,6 @@
         <file>icons/menu.png</file>
         <file>FileList.qml</file>
         <file>FileItemDelegate.qml</file>
+        <file>FileRequestItemDelegate.qml</file>
     </qresource>
 </RCC>
