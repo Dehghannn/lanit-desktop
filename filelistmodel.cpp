@@ -33,8 +33,8 @@ QVariant FileListModel::data(const QModelIndex &index, int role) const
     case TimeStamp:{
         return fileList.at(index.row())->getTime();
     }
-    case State:{
-        return fileList.at(index.row())->state();
+    case State:{        
+        return getMessageState(index.row());
     }
     default:{
         return fileList.at(index.row())->fileName();
@@ -72,4 +72,19 @@ void FileListModel::onProgressUpdated(int index, int progress)
     QModelIndex bottomRight = createIndex(index + 1, 0);
     static QVector<int> changedRoles = {Progress};
     emit dataChanged(topLeft, bottomRight, changedRoles);
+}
+
+int FileListModel::getMessageState(int index) const
+{
+    FileMessage *m = fileList.at(index);
+    int state = m->state();
+    if(state == FileMessage::Pending && !m->isOwn()){
+        return MessageState::WaitForUserConfirmation;
+    }else if(state == FileMessage::Pending && m->isOwn()){
+        return MessageState::ReadyToSend;
+    }else if(state == FileMessage::Rejected || state == FileMessage::Failed){
+        return MessageState::Failed;
+    }else{
+        return MessageState::Transfering;
+    }
 }
