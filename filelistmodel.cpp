@@ -7,6 +7,7 @@ FileListModel::FileListModel(QObject *parent) : QAbstractListModel(parent)
     roles[FileSize] = "FileSize";
     roles[isOwn] = "isOwn";
     roles[TimeStamp] = "TimeStamp";
+    roles[State] = "State";
 }
 
 int FileListModel::rowCount(const QModelIndex &parent) const
@@ -31,6 +32,9 @@ QVariant FileListModel::data(const QModelIndex &index, int role) const
     }
     case TimeStamp:{
         return fileList.at(index.row())->getTime();
+    }
+    case State:{
+        return fileList.at(index.row())->state();
     }
     default:{
         return fileList.at(index.row())->fileName();

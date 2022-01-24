@@ -206,6 +206,7 @@ void ChatHandler::onNewIncomingFileRequest(QString fileName, qint64 fileSize, QS
         chat = getChatByIP(address);
         chat->fileListModel.addFileMessage(fileMessage);
     }
+    connect(fileMessage, &FileMessage::progressUpdated, &chat->fileListModel, &FileListModel::onProgressUpdated);
 }
 
 void ChatHandler::setConnectionState(ChatListModel *chat, int state)

@@ -16,7 +16,8 @@ public:
         FileName,
         FileSize,
         isOwn,
-        TimeStamp
+        TimeStamp,
+        State
     };
     // QAbstractItemModel interface
     int rowCount(const QModelIndex &parent) const;
