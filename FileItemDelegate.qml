@@ -11,6 +11,7 @@ Item {
     property bool isOwn: true
     property int  fileSize: 10000000
     property string time: "12:00"
+    property int state: 0
     Pane{
         id: backGround
         //color: "#868f96"

@@ -10,6 +10,7 @@ Item {
     property bool isOwn: true
     property int  fileSize: 10000000
     property string time: "12:00"
+    property int state: 0
     signal accepted()
     signal rejected()
     Pane{
@@ -39,7 +40,7 @@ Item {
             }
             Text {
                 id: fileSize
-                anchors.bottom: parent.bottom
+                //anchors.bottom: parent.bottom
                 text: getProperFileSize(root.fileSize)
                 color: "gray"
                 font.pointSize: 10
@@ -60,9 +61,10 @@ Item {
                 height: parent.height
                 //anchors.verticalCenter: parent.verticalCenter
                 flat: true
-                text: qsTr("Accept")
+                text: "\uf00c"
+                font.family: "Font Awesome 6 Pro"
                 Material.foreground: Material.Green
-                font.pointSize: 10
+                font.pointSize: 20
                 onClicked: accepted()
             }
             Button{
@@ -71,9 +73,10 @@ Item {
                 height: parent.height
                 //anchors.verticalCenter: parent.verticalCenter
                 flat: true
-                text: qsTr("Reject")
+                text: "\uf00d"
+                font.family: "Font Awesome 6 Pro"
                 Material.foreground: Material.Red
-                font.pointSize: 10
+                font.pointSize: 20
                 onClicked: rejected()
             }
         }

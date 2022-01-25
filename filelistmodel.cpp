@@ -33,7 +33,7 @@ QVariant FileListModel::data(const QModelIndex &index, int role) const
     case TimeStamp:{
         return fileList.at(index.row())->getTime();
     }
-    case State:{        
+    case State:{
         return getMessageState(index.row());
     }
     default:{
@@ -66,12 +66,33 @@ bool FileListModel::insertRows(int row, int count, const QModelIndex &parent)
     return true;
 }
 
+void FileListModel::acceptFile(int index)
+{
+    fileList.at(index)->acceptFileMessage();
+}
+
+void FileListModel::rejectFile(int index)
+{
+    fileList.at(index)->rejectFileMessage();
+}
+
 void FileListModel::onProgressUpdated(int index, int progress)
 {
     QModelIndex topLeft = createIndex(index, 0);
     QModelIndex bottomRight = createIndex(index + 1, 0);
     static QVector<int> changedRoles = {Progress};
     emit dataChanged(topLeft, bottomRight, changedRoles);
+}
+
+void FileListModel::onFileMessageStateChanged(int index)
+{
+    qDebug() << "file " << index << " state changed";
+//    QModelIndex topLeft = createIndex(index, 0);
+//    QModelIndex bottomRight = createIndex(index + 1, 0);
+//    static QVector<int> changedRoles = {State};
+//    emit dataChanged(topLeft, bottomRight);
+    beginResetModel();
+    endResetModel();
 }
 
 int FileListModel::getMessageState(int index) const

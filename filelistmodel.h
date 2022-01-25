@@ -31,8 +31,11 @@ public:
     QHash<int, QByteArray> roleNames() const;
     void addFileMessage(FileMessage *fileMessage);
     bool insertRows(int row, int count, const QModelIndex &parent);
+    Q_INVOKABLE void acceptFile(int index);
+    Q_INVOKABLE void rejectFile(int index);
 public slots:
     void onProgressUpdated(int index, int progress); /// @todo dont need progress number here
+    void onFileMessageStateChanged(int index);
 private:
     QList<FileMessage*> fileList;
     QHash<int, QByteArray> roles;

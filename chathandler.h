@@ -5,6 +5,8 @@
 #include "tcpservice.h"
 #include "chatlistmodel.h"
 #include <QThread>
+#include <QDir>
+#include <QStandardPaths>
 #include "FileTransferCore/filetransferhandler.h"
 
 
@@ -55,6 +57,7 @@ private:
     void setConnectionState(ChatListModel* chat, int state);
     FileTransferHandler fileTransferHandler;
     ChatListModel* getChatByIP(QString address);
+    QDir defaultDownloadDir;
 };
 
 #endif // CHATHANDLER_H

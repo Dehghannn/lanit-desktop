@@ -17,37 +17,12 @@ ChatHandler::ChatHandler(QObject *parent) : QObject(parent)
     connect(this, &ChatHandler::newChatStarted, networkService, &TCPservice::startNewConnection);
     serverThread->start();
 
+    defaultDownloadDir.setPath(QStandardPaths::standardLocations(QStandardPaths::DownloadLocation).last());
+    defaultDownloadDir.mkdir("Lanit");
+    defaultDownloadDir.cd("Lanit");
+    fileTransferHandler.setSavePath(defaultDownloadDir.path() + "/");
     connect(&fileTransferHandler, &FileTransferHandler::newIncomingFile, this, &ChatHandler::onNewIncomingFileConnection);
-    //test Code
-    Message *message = new Message;
-    message->setText("alooo");
-    activeChat()->addMessage(*message);
-    Message *message2 = new Message;
-    message2->setText("salam halet chetore? chi kara mikoni? khoonevade khooban?");
-    message2->setIsOwn(true);
-    activeChat()->addMessage(*message2);
-    message->setText("ok bye");
-    message->setIsOwn(false);
-    activeChat()->addMessage(*message);
-    message->setText("felan khodahafez");
-    message->setIsOwn(true);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
-    activeChat()->addMessage(*message);
+
     fileTransferHandler.start();
 }
 
@@ -197,6 +172,7 @@ void ChatHandler::onNewIncomingFileRequest(QString fileName, qint64 fileSize, QS
     fileMessage->setIsOwn(false);
     Receive *receiver = qobject_cast<Receive*>(sender());
     connect(receiver, &Receive::progressUpdated, fileMessage, &FileMessage::updateProgress);
+    connect(fileMessage, &FileMessage::fileIsAccepted, receiver, &Receive::onUserResponded);
     ///@todo connect a signal from FileMessage to Receive object here for request response
     ChatListModel* chat = getChatByIP(address);
     if(chat != nullptr){
@@ -207,6 +183,7 @@ void ChatHandler::onNewIncomingFileRequest(QString fileName, qint64 fileSize, QS
         chat->fileListModel.addFileMessage(fileMessage);
     }
     connect(fileMessage, &FileMessage::progressUpdated, &chat->fileListModel, &FileListModel::onProgressUpdated);
+    connect(fileMessage, &FileMessage::stateChanged, &chat->fileListModel, &FileListModel::onFileMessageStateChanged);
 }
 
 void ChatHandler::setConnectionState(ChatListModel *chat, int state)

@@ -16,7 +16,7 @@ Item {
             id: fileListview
             anchors.fill: parent
             delegate: DelegateChooser{
-                role: "State"
+                role: "State"                
                 DelegateChoice{
                     roleValue: 0
                     FileRequestItemDelegate{
@@ -26,15 +26,59 @@ Item {
                         fileSize: model.FileSize
                         isOwn: model.isOwn
                         time: model.TimeStamp
+                        state: model.State
+                        onAccepted: ChatHandler.activeFileList.acceptFile(index)
+                        onRejected: ChatHandler.activeFileList.rejectFile(index)
                     }
                 }
                 DelegateChoice{
+                    roleValue: 1
                     FileItemDelegate{
                         width: backGround.width
                         height: 80
                         fileName: model.FileName
                         fileSize: model.FileSize
                         isOwn: model.isOwn
+                        state: model.State
+                        progress: model.Progress
+                        time: model.TimeStamp
+                    }
+                }
+                DelegateChoice{
+                    roleValue: 2
+                    FileItemDelegate{
+                        width: backGround.width
+                        height: 80
+                        fileName: model.FileName
+                        fileSize: model.FileSize
+                        isOwn: model.isOwn
+                        state: model.State
+                        progress: model.Progress
+                        time: model.TimeStamp
+                    }
+                }
+                DelegateChoice{
+                    roleValue: 3
+                    FileItemDelegate{
+                        width: backGround.width
+                        height: 80
+                        fileName: model.FileName
+                        fileSize: model.FileSize
+                        isOwn: model.isOwn
+                        state: model.State
+                        progress: model.Progress
+                        time: model.TimeStamp
+                    }
+                }
+                DelegateChoice{
+                    roleValue: 4
+                    FileItemDelegate{
+                        width: backGround.width
+                        height: 80
+                        fileName: model.FileName
+                        fileSize: model.FileSize
+                        isOwn: model.isOwn
+                        state: model.State
                         progress: model.Progress
                         time: model.TimeStamp
                     }

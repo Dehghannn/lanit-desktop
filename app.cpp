@@ -2,10 +2,7 @@
 
 App::App(QObject *parent) : QObject(parent)
 {
-    User* user = new User;
-    user->setNickName("Hossein");
-    user->setUserIP("192.168.1.1");
-    m_usersList.append(user);
+
 }
 
 QString App::nickName() const
