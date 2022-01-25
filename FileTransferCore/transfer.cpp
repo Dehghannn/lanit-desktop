@@ -104,10 +104,10 @@ void Transfer::run()
 
     }
     //emit progressUpdated(bytesWritten);
-    qDebug() << "Transfer finished";
     setStatus(Finished);
     file->close();
     ackWaiterLoop.exec();
+    qDebug() << "Transfer finished";
     qInfo () << "took: " << timer->elapsed() / 1000 << " seconds.";
     emit finished();
 }

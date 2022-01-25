@@ -54,7 +54,7 @@ private:
     void waitForUserResponse();
     QByteArray readBuffer;
     QByteArray fileBuffer;
-    const qint64 maxBufferSize = 2000000;
+    const qint64 maxBufferSize = 50000000;
     DataPacket::AnswerType response = DataPacket::No;
 protected:
     /* protected members of the parent class

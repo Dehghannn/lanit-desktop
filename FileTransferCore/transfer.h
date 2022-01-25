@@ -77,7 +77,7 @@ protected:
     bool m_readyRead = false;
     bool m_bytesWritten = false;
     QByteArray fileBuffer;
-    const qint64 fileBufferReadSize = 2000000;
+    const qint64 fileBufferReadSize = 4000000;
     qint64 fileBufferSize = 0;
     bool exit = false;
 
