@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QThread>
+#include <QTimer>
 #include "datapacket.h"
 #include "transfer.h"
 ///
@@ -56,6 +57,7 @@ private:
     QByteArray fileBuffer;
     const qint64 maxBufferSize = 50000000;
     DataPacket::AnswerType response = DataPacket::No;
+    QTimer timer;
 protected:
     /* protected members of the parent class
     QString fileName;
