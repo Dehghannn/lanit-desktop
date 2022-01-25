@@ -18,7 +18,7 @@ class Receive : public Transfer
 {
     Q_OBJECT
 public:
-    Receive(qintptr handle, QObject *parent = nullptr); /// this constructs a receive transfer
+    Receive(qintptr handle, QObject *parent = nullptr); /// this constructs a receive transfer    
     void run() override;
 
     QString getDestIP();
@@ -57,7 +57,7 @@ private:
     QByteArray fileBuffer;
     const qint64 maxBufferSize = 50000000;
     DataPacket::AnswerType response = DataPacket::No;
-    QTimer timer;
+
 protected:
     /* protected members of the parent class
     QString fileName;

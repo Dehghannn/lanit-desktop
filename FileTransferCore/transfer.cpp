@@ -33,6 +33,7 @@ void Transfer::run()
     connect(socket, &QTcpSocket::bytesWritten, &bytesWrittenWaiterLoop, &QEventLoop::quit, Qt::QueuedConnection);
     connect(socket, &QTcpSocket::bytesWritten, this, &Transfer::socketBytesWritten, Qt::QueuedConnection);
     connect(socket, &QTcpSocket::readyRead, &ackWaiterLoop, &QEventLoop::quit, Qt::QueuedConnection);
+    connect(socket, &QTcpSocket::disconnected, &ackWaiterLoop, &QEventLoop::quit, Qt::QueuedConnection);
     file = new QFile(fileName);
     info = new QFileInfo;
     info->setFile(*file);

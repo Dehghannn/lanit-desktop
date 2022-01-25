@@ -4,9 +4,7 @@ Receive::Receive(qintptr handle, QObject *parent):Transfer(parent)
     this->handle = handle;
     setStatus(NotStarted);
 
-    timer.setSingleShot(false);
-    timer.setInterval(1000);
-    connect(&timer, &QTimer::timeout, [this](){ emit progressUpdated(bytesRead);});
+
 }
 
 void Receive::run()
@@ -40,7 +38,7 @@ void Receive::run()
     setStatus(Transfering);
 
     qDebug() << "receiving file";
-    timer.start();
+
     while(bytesRead < fileSize){
         if(exit){
             return;
@@ -55,12 +53,12 @@ void Receive::run()
                 file->write(fileBuffer);
                 fileBuffer.clear();
                 //qDebug() << "total of " << bytesRead << "bytes were read";
-                //emit progressUpdated(bytesRead);
+                emit progressUpdated(bytesRead);
             }
         }
 
     }
-    timer.stop();
+
     if(!fileBuffer.isEmpty()){
         file->write(fileBuffer);
         fileBuffer.clear();
@@ -69,6 +67,7 @@ void Receive::run()
     socket->write("done!");
     setStatus(Finished);
     file->close();
+
     qDebug() << "receive finished";
 
 }
