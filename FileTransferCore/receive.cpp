@@ -40,6 +40,7 @@ void Receive::run()
     setStatus(Transfering);
 
     qDebug() << "receiving file";
+    timer.start();
     while(bytesRead < fileSize){
         if(exit){
             return;
@@ -59,6 +60,7 @@ void Receive::run()
         }
 
     }
+    timer.stop();
     if(!fileBuffer.isEmpty()){
         file->write(fileBuffer);
         fileBuffer.clear();
