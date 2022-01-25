@@ -74,6 +74,16 @@ void App::newDatagramReceived(QNetworkDatagram datagram)
     }
 }
 
+void App::onCreatedNewUser(QString userIP)
+{
+    User* user = new User;
+    user->setUserIP(userIP);
+    user->setNickName(userIP);
+    m_usersList.append(user);
+    emit userListChanged();
+    qDebug() << "new user with ip address of " << userIP << " was created";
+}
+
 int App::getUserIndex(User &user)
 {
     for(int i = 0; i < m_usersList.size(); i++){

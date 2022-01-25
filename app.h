@@ -23,6 +23,7 @@ public:
 public slots:
     void startUDPservice();
     void newDatagramReceived(QNetworkDatagram datagram);
+    void onCreatedNewUser(QString userIP);
 signals:
     void nickNameChanged(QString nickname);
     void userListChanged();

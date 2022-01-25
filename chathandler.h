@@ -44,6 +44,7 @@ signals:
     void newOutgoingTextMessage(Message message);
     void newMessageNotification(QString ip, QString messageText);
     void activeFileListChanged();
+    void newUserCreated(QString userIP);
 private:
     TCPservice *networkService;
     QHash<User, ChatListModel*> userChatMap;

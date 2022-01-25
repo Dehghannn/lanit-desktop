@@ -31,6 +31,7 @@ void Transfer::run()
     connect(socket, &QTcpSocket::disconnected, this, &Transfer::disconnected);
     //connect(socket, &QTcpSocket::bytesWritten, this, &Transfer::socketBytesWritten, Qt::QueuedConnection);
     connect(socket, &QTcpSocket::bytesWritten, &bytesWrittenWaiterLoop, &QEventLoop::quit, Qt::QueuedConnection);
+    connect(socket, &QTcpSocket::bytesWritten, this, &Transfer::socketBytesWritten, Qt::QueuedConnection);
     connect(socket, &QTcpSocket::readyRead, &ackWaiterLoop, &QEventLoop::quit, Qt::QueuedConnection);
     file = new QFile(fileName);
     info = new QFileInfo;
@@ -91,7 +92,7 @@ void Transfer::run()
             endOfBuffer = fileBuffer.data() + fileBufferSize;
             if(fileBufferSize < stepSize)
                 len = fileBufferSize;
-            emit progressUpdated(bytesWritten);
+            //emit progressUpdated(bytesWritten);
         }
         //qDebug()<< Qt::hex << seeker << endOfBuffer;
         socket->write(seeker, len);
@@ -102,7 +103,7 @@ void Transfer::run()
         packetCount++;
 
     }
-    emit progressUpdated(bytesWritten);
+    //emit progressUpdated(bytesWritten);
     qDebug() << "Transfer finished";
     setStatus(Finished);
     file->close();
@@ -134,8 +135,8 @@ void Transfer::disconnected()
 
 void Transfer::socketBytesWritten(qint64 bytesWritten)
 {
-    qDebug() << "bytesWritten called " << bytesWritten;
-    //m_bytesWritten = true;
+    this->bytesActuallyWritten += bytesWritten;
+    emit progressUpdated(bytesActuallyWritten);
 }
 
 const QString &Transfer::targetIP() const

@@ -83,6 +83,7 @@ void ChatHandler::newIncomingTextMessage(Message message)
         chatListModel = new ChatListModel;
         chatListModel->setUserIP(user->userIP());
         userChatMap.insert(*user, chatListModel);
+
     }
     qDebug() << "new message from : " << user->userIP();
     qDebug() << message.text();
@@ -141,6 +142,8 @@ void ChatHandler::incommingConnection(QString Address)
         chatListModel = new ChatListModel;
         chatListModel->setUserIP(user->userIP());
         userChatMap.insert(*user, chatListModel);
+        qDebug() << "======= emitting newUserCreated signal";
+        emit newUserCreated(user->userIP());
         setConnectionState(chatListModel, ChatListModel::Connected);
     }
 

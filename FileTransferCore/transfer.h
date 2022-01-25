@@ -59,6 +59,7 @@ private:
     QString m_targetIP;
     qint64 numberOfWrites;
     qint64 bytesWritten = 0;
+    qint64 bytesActuallyWritten = 0;
 
     void waitForAck(QTcpSocket *socket);
     void sendFileRequest();

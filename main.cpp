@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     App application;
     ChatHandler chathandle;
     QObject::connect(&application, &App::newOutgoingFile, &chathandle, &ChatHandler::onNewOutgoingFile);
+    QObject::connect(&chathandle, &ChatHandler::newUserCreated, &application, &App::onCreatedNewUser);
 
     qRegisterMetaType<Message>();
 
