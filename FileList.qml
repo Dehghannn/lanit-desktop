@@ -80,7 +80,7 @@ Item {
                         isOwn: model.isOwn
                         state: model.State
                         progress: model.Progress
-                        time: model.TimeStamp
+                        time: model.TimeStamp          
                     }
                 }
             }

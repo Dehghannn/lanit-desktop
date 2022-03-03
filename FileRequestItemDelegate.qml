@@ -8,7 +8,7 @@ Item {
     height: 100
     property alias fileName: fileName.text
     property bool isOwn: true
-    property int  fileSize: 10000000
+    property string  fileSize: "10 MB"
     property string time: "12:00"
     property int state: 0
     signal accepted()
@@ -34,14 +34,19 @@ Item {
             spacing: 10
             Text {
                 id: fileName
+                width: ProgressBar.width - fileSize.width
+                height: parent.height - ProgressBar.height - 5
                 text: qsTr("movie.mkv")
-                font.pointSize: 12
+                fontSizeMode: Text.Fit
+                wrapMode: Text.WordWrap
+                maximumLineCount: 2
                 verticalAlignment: Text.AlignVCenter
             }
             Text {
                 id: fileSize
                 //anchors.bottom: parent.bottom
-                text: getProperFileSize(root.fileSize)
+                text: root.fileSize
+                width: 40
                 color: "gray"
                 font.pointSize: 10
                 verticalAlignment: Text.AlignVCenter
@@ -79,18 +84,6 @@ Item {
                 font.pointSize: 20
                 onClicked: rejected()
             }
-        }
-    }
-    function getProperFileSize(size){
-        var prettySize;
-        if(size < 990){
-            return size + " Bytes";
-        }else if(size >= 991 && size < 999900){
-            prettySize = size / 1000;
-            return prettySize + " KB";
-        }else if(size >= 999901 && size < 999990000){ /// @todo complete this shit
-                prettySize = size / 1000000
-            return prettySize + " MB";
         }
     }
 }

@@ -1,15 +1,16 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
+import QtQuick.Layouts 1.12
 
 Item {
     id: root
-    width: 800
+    width: 600
     height: 100
     property real progress: 60
     property alias fileName: fileName.text
     property bool isOwn: true
-    property int  fileSize: 10000000
+    property string  fileSize: "10 MB"
     property string time: "12:00"
     property int state: 0
     Pane{
@@ -24,44 +25,32 @@ Item {
         anchors.rightMargin: 1
         anchors.leftMargin: 1
         anchors.topMargin: 1
-        //gradient: Gradient {
-            //orientation: Gradient.Vertical
-            //GradientStop {
-              //  position: 0
-               // color: "#ffffff"//"#dfe9f3"
-            //}
-
-           // GradientStop {
-             //   position: 1
-               // color: "#c8dcdb"
-            //}
-        //}
-        //border.width: 0.1
-        //border.color: "#868f96"
-        Row{
-            id: textRow
-            width: transferProgress.width
-            height: parent.height * 3 / 5
-            anchors.top: parent.top
-            anchors.bottom: transferProgress.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 10
             Text {
                 id: fileName
-                text: qsTr("movie.mkv")
-                font.pointSize: 12
-                anchors.bottom: parent.bottom
+                width: transferProgress.width - fileSize.width
+                height: parent.height - transferProgress.height - 5
+                anchors.left: transferProgress.left
+                anchors.bottom: transferProgress.top
+                text: qsTr("The_Red_Pill_2016_1080p_BrRip_YIFY_30NAMA.mkv")
+                fontSizeMode: Text.HorizontalFit
+                //font.pointSize: 10
+                minimumPointSize: 8
+                wrapMode: Text.WordWrap
                 verticalAlignment: Text.AlignBottom
             }
             Text {
                 id: fileSize
-                anchors.bottom: parent.bottom
-                text: getProperFileSize(root.fileSize)
+                anchors.left: fileName.right
+                anchors.leftMargin: 5
+                anchors.bottom: fileName.bottom
+                //anchors.right: transferProgress.right
+//                height: fileName.height
+                text: root.fileSize
                 color: "gray"
+                wrapMode: Text.WordWrap
                 font.pointSize: 10
-                verticalAlignment: Text.AlignBottom
+                verticalAlignment: Text.AlignBottom                
             }
-        }
         ProgressBar{
             id: transferProgress
             width: parent.width - 100
@@ -71,19 +60,7 @@ Item {
             from: 0
             to: 100
             value: root.progress
-            visible: (value == 100)? false: true
-        }
-    }
-    function getProperFileSize(size){
-        var prettySize;
-        if(size < 990){
-            return size + " Bytes";
-        }else if(size >= 991 && size < 999900){
-            prettySize = size / 1000;
-            return prettySize + " KB";
-        }else if(size >= 999901 && size < 999990000){ /// @todo complete this shit
-                prettySize = size / 1000000
-            return prettySize + " MB";
+            visible: (root.state == 4)? false: true
         }
     }
 }
