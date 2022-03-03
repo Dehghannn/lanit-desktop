@@ -67,6 +67,7 @@ void Receive::run()
     socket->write("done!");
     setStatus(Finished);
     file->close();
+    emit finished();
 
     qDebug() << "receive finished";
 
@@ -124,7 +125,7 @@ void Receive::respondToRequest(DataPacket::AnswerType answer)
     }
 
     }
-     // assume user said yes for now
+    // assume user said yes for now
     qDebug() <<"sending file request response";
     socket->write(responsePacket.Data());
     socket->waitForBytesWritten();

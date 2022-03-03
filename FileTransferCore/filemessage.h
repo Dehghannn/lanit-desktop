@@ -3,6 +3,7 @@
 #include "message.h"
 #include <QFile>
 #include <QFileInfo>
+#include <QDebug>
 
 class FileMessage: public QObject, public Message
 {
@@ -20,7 +21,7 @@ public:
      */
     FileMessage();
     enum States{
-        Pending,
+        Pending = 0,
         Accepted,
         Rejected,
         Failed,
@@ -45,6 +46,7 @@ public:
 
 public slots:
     void updateProgress(qint64 bytesTransfered);
+    void onTransferFinished();
 signals:
     void progressUpdated(int index, int progress);
     void fileIsAccepted(bool accepted); /// accepted = 1 is accepted

@@ -5,6 +5,7 @@
 #include <QAbstractListModel>
 #include "FileTransferCore/filemessage.h"
 #include <QDebug>
+#include <QLocale>
 
 class FileListModel : public QAbstractListModel
 {
@@ -23,7 +24,8 @@ public:
         WaitForUserConfirmation = 0, /// incoming files waiting for user to interact with gui
         ReadyToSend, /// outgoing files waiting for other user to confirm transfer
         Transfering, /// transfering both for incoming and outgoing
-        Failed
+        Failed,
+        Finished
     };
     // QAbstractItemModel interface
     int rowCount(const QModelIndex &parent) const;
@@ -40,6 +42,7 @@ private:
     QList<FileMessage*> fileList;
     QHash<int, QByteArray> roles;
     int getMessageState(int index) const;
+    QLocale locale = QLocale::English;
 };
 
 #endif // FILELISTMODEL_H

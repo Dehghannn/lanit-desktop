@@ -158,6 +158,7 @@ void ChatHandler::onNewOutgoingFile(QString fileName)
     ///@todo add the file message to the file list model object
     activeChat()->fileListModel.addFileMessage(fileMessage);
     connect(fileMessage, &FileMessage::progressUpdated, activeFileList(), &FileListModel::onProgressUpdated);
+    connect(fileMessage, &FileMessage::stateChanged, activeFileList(), &FileListModel::onFileMessageStateChanged);
 
 }
 
@@ -175,6 +176,7 @@ void ChatHandler::onNewIncomingFileRequest(QString fileName, qint64 fileSize, QS
     fileMessage->setIsOwn(false);
     Receive *receiver = qobject_cast<Receive*>(sender());
     connect(receiver, &Receive::progressUpdated, fileMessage, &FileMessage::updateProgress);
+    connect(receiver, &Receive::finished, fileMessage, &FileMessage::onTransferFinished);
     connect(fileMessage, &FileMessage::fileIsAccepted, receiver, &Receive::onUserResponded);
     ///@todo connect a signal from FileMessage to Receive object here for request response
     ChatListModel* chat = getChatByIP(address);

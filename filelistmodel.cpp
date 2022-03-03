@@ -25,7 +25,7 @@ QVariant FileListModel::data(const QModelIndex &index, int role) const
         return fileList.at(index.row())->fileName();
     }
     case FileSize:{
-        return fileList.at(index.row())->fileSize();
+        return locale.formattedDataSize(fileList.at(index.row())->fileSize(), 2, QLocale::DataSizeFormat::DataSizeBase1000);
     }
     case isOwn:{
         return fileList.at(index.row())->isOwn();
@@ -86,7 +86,7 @@ void FileListModel::onProgressUpdated(int index, int progress)
 
 void FileListModel::onFileMessageStateChanged(int index)
 {
-    qDebug() << "file " << index << " state changed";
+
 //    QModelIndex topLeft = createIndex(index, 0);
 //    QModelIndex bottomRight = createIndex(index + 1, 0);
 //    static QVector<int> changedRoles = {State};
@@ -99,13 +99,16 @@ int FileListModel::getMessageState(int index) const
 {
     FileMessage *m = fileList.at(index);
     int state = m->state();
+//    qDebug() << "file " << index << " state changed to " << state;
     if(state == FileMessage::Pending && !m->isOwn()){
         return MessageState::WaitForUserConfirmation;
     }else if(state == FileMessage::Pending && m->isOwn()){
         return MessageState::ReadyToSend;
     }else if(state == FileMessage::Rejected || state == FileMessage::Failed){
         return MessageState::Failed;
-    }else{
-        return MessageState::Transfering;
+    }else if(state == FileMessage::Finished){
+        return MessageState::Finished;
+    }else {
+        return MessageState::Failed;
     }
 }

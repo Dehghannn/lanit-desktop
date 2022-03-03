@@ -18,6 +18,12 @@ void FileMessage::updateProgress(qint64 bytesTransfered)
     emit progressUpdated(m_index, m_progress);
 }
 
+void FileMessage::onTransferFinished()
+{
+    setState(FileMessage::Finished);
+    qDebug() << "Transfer finished on file " << m_index << Finished;
+}
+
 int FileMessage::state() const
 {
     return m_state;

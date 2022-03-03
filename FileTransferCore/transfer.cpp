@@ -87,7 +87,7 @@ void Transfer::run()
             return;
         }
         if(seeker == endOfBuffer){
-            bytesWrittenWaiterLoop.exec();            
+            bytesWrittenWaiterLoop.exec();
             readFromFile();
             seeker = fileBuffer.data();
             endOfBuffer = fileBuffer.data() + fileBufferSize;
@@ -136,8 +136,10 @@ void Transfer::disconnected()
 
 void Transfer::socketBytesWritten(qint64 bytesWritten)
 {
-    this->bytesActuallyWritten += bytesWritten;
-    emit progressUpdated(bytesActuallyWritten);
+    if(m_status == Transfering){
+        this->bytesActuallyWritten += bytesWritten;
+        emit progressUpdated(bytesActuallyWritten);
+    }
 }
 
 const QString &Transfer::targetIP() const
@@ -178,20 +180,20 @@ bool Transfer::getRequestResponse()
     connect(socket, &QTcpSocket::readyRead, &loop, &QEventLoop::quit, Qt::QueuedConnection);
     loop.exec();
     // wait a full minute for the receiver to answer request
-//    if(!socket->waitForReadyRead(60000)){ //60000
-//        // timeout happened
-//        qDebug() << "request timed out";
-//        return false;
-//    }else{
-        QByteArray answer = socket->readAll();
-        DataPacket responsePacket;
-        responsePacket.extractPacket(answer);
-        if(!responsePacket.isYes()){ // file was rejected
-            qDebug() << "File was rejected by the receiver";
-            setStatus(Failed);
-            return false;
-        }
-//    }
+    //    if(!socket->waitForReadyRead(60000)){ //60000
+    //        // timeout happened
+    //        qDebug() << "request timed out";
+    //        return false;
+    //    }else{
+    QByteArray answer = socket->readAll();
+    DataPacket responsePacket;
+    responsePacket.extractPacket(answer);
+    if(!responsePacket.isYes()){ // file was rejected
+        qDebug() << "File was rejected by the receiver";
+        setStatus(Failed);
+        return false;
+    }
+    //    }
     qDebug() << "file was accepted";
     return true;
 }

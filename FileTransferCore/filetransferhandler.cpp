@@ -32,6 +32,7 @@ void FileTransferHandler::newOutgoingFile(QString address, QString fileName, Fil
     Transfer *transferer = new Transfer(address, fileName, this);
     transferer->autoDelete();
     connect(transferer, &Transfer::progressUpdated, fileMessage, &FileMessage::updateProgress, Qt::QueuedConnection);
+    connect(transferer, &Transfer::finished, fileMessage, &FileMessage::onTransferFinished, Qt::QueuedConnection);
     pool.start(transferer);
 }
 
